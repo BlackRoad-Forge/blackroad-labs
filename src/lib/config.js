@@ -10,6 +10,18 @@ export const CONFIG = {
   // Stripe
   stripe: {
     publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '',
+    prices: {
+      sovereign_monthly: 'price_1T8szH3e5FMFdlFwtDZldpX2',
+      gateway_pro_monthly: 'price_1SZzFE3e5FMFdlFwNBbEIoZk',
+      gateway_team_monthly: 'price_1SZzFN3e5FMFdlFwXePFSBwA',
+      gateway_pro_yearly: 'price_1SZzFV3e5FMFdlFwfwpoA958',
+      gateway_team_yearly: 'price_1SZzFd3e5FMFdlFwjF5FhS1S',
+    },
+    paymentLinks: {
+      sovereign: 'https://buy.stripe.com/test_5kQbIUd3y8xT8SD3s04Vy00',
+      gateway_pro: 'https://buy.stripe.com/test_7sY28k0gM9BX2uf7Ig4Vy01',
+      gateway_team: 'https://buy.stripe.com/test_bJe9AM7Je29v9WH2nW4Vy02',
+    },
   },
 
   // API endpoints — your real infrastructure

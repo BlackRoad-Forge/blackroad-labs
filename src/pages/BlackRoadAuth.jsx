@@ -172,7 +172,7 @@ function LoginView({ onSwitch, onSuccess }) {
       <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.16em", marginBottom: 14 }}>Sign in</div>
       <h1 style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 28, color: "#f0f0f0", letterSpacing: "-0.03em", marginBottom: 6 }}>Welcome back.</h1>
       <p style={{ fontFamily: inter, fontSize: 14, color: "#2a2a2a", marginBottom: 32, lineHeight: 1.6 }}>
-        Sign in to your BlackRoad workspace.
+        Sign in to your BlackRoad OS workspace.
       </p>
 
       {/* OAuth */}
@@ -189,7 +189,7 @@ function LoginView({ onSwitch, onSuccess }) {
       </div>
 
       <Field label="Email" type="email" value={email} onChange={v => { setEmail(v); setErrors(e => ({ ...e, email: "" })); }}
-        placeholder="you@yourcompany.io" error={errors.email} autoComplete="email" />
+        placeholder="alexa@blackroad.io" error={errors.email} autoComplete="email" />
       <Field label="Password" type="password" value={password} onChange={v => { setPassword(v); setErrors(e => ({ ...e, password: "" })); }}
         placeholder="••••••••••••" error={errors.password}
         hint={<span onClick={() => onSwitch("forgot")} style={{ cursor: "pointer", color: "#2a2a2a", transition: "color 0.15s" }}
@@ -247,15 +247,15 @@ function SignupView({ onSwitch, onSuccess }) {
   return (
     <div style={{ animation: "fadeUp 0.3s ease both" }}>
       <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.16em", marginBottom: 14 }}>Create account</div>
-      <h1 style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 28, color: "#f0f0f0", letterSpacing: "-0.03em", marginBottom: 6 }}>Join BlackRoad.</h1>
+      <h1 style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 28, color: "#f0f0f0", letterSpacing: "-0.03em", marginBottom: 6 }}>Join BlackRoad OS.</h1>
       <p style={{ fontFamily: inter, fontSize: 14, color: "#2a2a2a", marginBottom: 32, lineHeight: 1.6 }}>
-        Sovereign infrastructure. Sentient agents.
+        Sovereign infrastructure. Sentient agents. Z:=yx−w
       </p>
 
       <Field label="Name" value={name} onChange={v => { setName(v); setErrors(e => ({...e, name:""})); }}
         placeholder="Alexa Amundson" error={errors.name} autoComplete="name" />
       <Field label="Email" type="email" value={email} onChange={v => { setEmail(v); setErrors(e => ({...e, email:""})); }}
-        placeholder="you@yourcompany.io" error={errors.email} autoComplete="email" />
+        placeholder="alexa@blackroad.io" error={errors.email} autoComplete="email" />
 
       {/* Password + strength */}
       <Field label="Password" type="password" value={password} onChange={v => { setPassword(v); setErrors(e => ({...e, password:""})); }}
@@ -334,7 +334,7 @@ function ForgotView({ onSwitch }) {
       </p>
 
       <Field label="Email" type="email" value={email} onChange={setEmail}
-        placeholder="you@yourcompany.io" autoComplete="email" />
+        placeholder="alexa@blackroad.io" autoComplete="email" />
 
       <GradBtn onClick={submit} loading={loading} disabled={!email.includes("@")}>Send reset link →</GradBtn>
 
@@ -365,8 +365,8 @@ function SuccessView({ mode }) {
       </h2>
       <p style={{ fontFamily: inter, fontSize: 14, color: "#2a2a2a", lineHeight: 1.75, marginBottom: 36, maxWidth: 320, margin: "0 auto 36px" }}>
         {mode === "login"
-          ? "Your session is active. Redirecting to your workspace."
-          : "Your BlackRoad workspace is being initialized. Lucidia is warming up."}
+          ? "Your session is active. Redirecting to your BlackRoad OS workspace."
+          : "Your BlackRoad OS workspace is being initialized. Lucidia is warming up."}
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 6, maxWidth: 280, margin: "0 auto" }}>
@@ -413,7 +413,7 @@ function LeftPanel() {
               <div key={c} style={{ width: 3, height: 20, background: c, borderRadius: 2, animation: `barPulse 2.5s ease-in-out ${i * 0.14}s infinite` }} />
             ))}
           </div>
-          <span style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 18, color: "#f0f0f0", letterSpacing: "-0.03em" }}>BlackRoad</span>
+          <span style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 18, color: "#f0f0f0", letterSpacing: "-0.03em" }}>BlackRoad OS</span>
         </div>
 
         {/* Rotating gradient ring */}
@@ -429,13 +429,13 @@ function LeftPanel() {
           Sovereign.<br />Sentient.<br />Spatial.
         </h2>
         <p style={{ fontFamily: inter, fontSize: 14, color: "#2a2a2a", lineHeight: 1.8, maxWidth: 320 }}>
-          The distributed agent OS. Every identity cryptographically anchored. Every action witnessed on RoadChain.
+          The distributed agent OS. 186 repos. 8 agents. 48 domains. Every action witnessed on RoadChain.
         </p>
       </div>
 
       {/* Stats */}
       <div style={{ display: "flex", gap: 2, marginTop: 40 }}>
-        {[["1K", "agents v1.0"], ["30K", "agents v2.0"], ["15", "GitHub orgs"]].map(([v, l]) => (
+        {[["186", "repos"], ["8", "agents"], ["48", "domains"]].map(([v, l]) => (
           <div key={l} style={{ flex: 1, background: "#080808", border: "1px solid #0d0d0d", padding: "12px 14px" }}>
             <div style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 20, color: "#686868", letterSpacing: "-0.03em", marginBottom: 3 }}>{v}</div>
             <div style={{ fontFamily: mono, fontSize: 9, color: "#1e1e1e" }}>{l}</div>
@@ -530,7 +530,7 @@ export default function BlackRoadAuth() {
                 <div style={{ display: "flex", gap: 2 }}>
                   {STOPS.map((c, i) => <div key={c} style={{ width: 2, height: 13, background: c, borderRadius: 2 }} />)}
                 </div>
-                <span style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 15, color: "#f0f0f0", letterSpacing: "-0.03em" }}>BlackRoad</span>
+                <span style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 15, color: "#f0f0f0", letterSpacing: "-0.03em" }}>BlackRoad OS</span>
               </div>
             )}
 
@@ -546,7 +546,7 @@ export default function BlackRoadAuth() {
 
             {/* Footer */}
             <div style={{ padding: split ? "16px 64px" : "16px 24px", borderTop: "1px solid #0a0a0a", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-              <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>blackroad.io · Z:=yx−w</span>
+              <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>blackroad.io · blackroad.systems · Z:=yx−w · BlackRoad OS, Inc.</span>
               <div style={{ display: "flex", gap: 16 }}>
                 {["Terms", "Privacy", "Docs"].map(l => (
                   <span key={l} style={{ fontFamily: inter, fontSize: 11, color: "#1e1e1e", cursor: "pointer", transition: "color 0.15s" }}

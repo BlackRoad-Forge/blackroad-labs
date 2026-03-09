@@ -187,7 +187,7 @@ function Hero() {
   return (
     <section style={{ padding: "72px 0 60px", borderBottom: "1px solid #111" }}>
       <div style={{ fontFamily: mono, fontSize: 10, color: "#444", textTransform: "uppercase", letterSpacing: "0.22em", marginBottom: 20, animation: "fadeUp 0.6s ease both" }}>
-        Brand Identity System · v2
+        BlackRoad OS, Inc. · Brand Identity System · v2
       </div>
       <h1 style={{ fontFamily: grotesk, fontWeight: 700, fontSize: "clamp(38px, 10vw, 80px)", color: "#f5f5f5", letterSpacing: "-0.04em", lineHeight: 1.0, marginBottom: 24, animation: "fadeUp 0.6s ease 0.1s both" }}>
         BlackRoad<br />Brand System.
@@ -482,7 +482,7 @@ export default function BlackRoadBrandSystem() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12 }}>
               <div>
                 <div style={{ fontFamily: grotesk, fontWeight: 700, fontSize: 18, color: "#ebebeb", letterSpacing: "-0.03em", marginBottom: 5 }}>BlackRoad</div>
-                <div style={{ fontFamily: mono, fontSize: 10, color: "#333" }}>Brand System · blackroad.io · Z:=yx−w</div>
+                <div style={{ fontFamily: mono, fontSize: 10, color: "#333" }}>BlackRoad OS, Inc. · blackroad.io · Z:=yx−w · 186 repos · 48 domains · 8 agents</div>
               </div>
               <div style={{ fontFamily: mono, fontSize: 10, color: "#282828" }}>v2 · 2026</div>
             </div>

@@ -91,10 +91,11 @@ function Nav() {
 }
 
 // ─── Gradient button ──────────────────────────────────────────────
-function GradBtn({ children, small = false, outline = false }) {
+function GradBtn({ children, small = false, outline = false, onClick }) {
   const [hover, setHover] = useState(false);
   if (outline) return (
     <button
+      onClick={onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -111,6 +112,7 @@ function GradBtn({ children, small = false, outline = false }) {
   );
   return (
     <button
+      onClick={onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -398,6 +400,7 @@ function Pricing() {
       items: ["Self-hosted K3s cluster", "Lucidia base agent", "Z-framework SDK", "Community support"],
       cta: "Deploy Free",
       outline: true,
+      action: () => window.open("https://github.com/blackroad-os", "_blank"),
     },
     {
       name: "Sovereign",
@@ -407,6 +410,7 @@ function Pricing() {
       featured: true,
       items: ["Everything in Operator", "Full agent fleet (5 agents)", "Aura intelligence layer", "Dedicated infra + SLA", "Priority support"],
       cta: "Get Sovereign",
+      action: () => window.open("https://buy.stripe.com/test_5kQbIUd3y8xT8SD3s04Vy00", "_blank"),
     },
     {
       name: "Enterprise",
@@ -416,6 +420,7 @@ function Pricing() {
       items: ["Fully custom deployment", "White-label OS", "On-prem or air-gapped", "Dedicated success team"],
       cta: "Talk to Us",
       outline: true,
+      action: () => window.location.href = "mailto:alexa@blackroad.io?subject=Enterprise%20Inquiry",
     },
   ];
 
@@ -459,7 +464,7 @@ function Pricing() {
                     </div>
                   ))}
                 </div>
-                <GradBtn outline={p.outline}>{p.cta}</GradBtn>
+                <GradBtn outline={p.outline} onClick={p.action}>{p.cta}</GradBtn>
               </div>
             </FadeIn>
           ))}

@@ -10,8 +10,11 @@ const inter   = "'Inter', sans-serif";
 const NAV = [
   { id: "profile",    label: "Profile",         icon: "◈" },
   { id: "account",    label: "Account",         icon: "◉" },
+  { id: "infra",      label: "Infrastructure",  icon: "⬢" },
   { id: "apikeys",    label: "API Keys",        icon: "⬡" },
   { id: "agents",     label: "Agents",          icon: "△" },
+  { id: "domains",    label: "Domains",         icon: "◎" },
+  { id: "storage",    label: "Storage",         icon: "▥" },
   { id: "security",   label: "Security",        icon: "▣" },
   { id: "webhooks",   label: "Webhooks",        icon: "⟳" },
   { id: "billing",    label: "Billing",         icon: "◇" },
@@ -134,7 +137,9 @@ function SaveBar({ dirty, onSave, onDiscard, saving }) {
 function ProfileSection() {
   const [name,     setName]    = useState("Alexa Amundson");
   const [handle,   setHandle]  = useState("alexa");
-  const [bio,      setBio]     = useState("Founder of BlackRoad OS. Building sovereign AI infrastructure.");
+  const [bio,      setBio]     = useState("Founder of BlackRoad OS, Inc. Building sovereign AI infrastructure. Delaware C-Corp.");
+  const [email,    setEmail]   = useState("alexa@blackroad.io");
+  const [recovery, setRecovery]= useState("amundsonalexa@gmail.com");
   const [url,      setUrl]     = useState("blackroad.io");
   const [timezone, setTZ]      = useState("America/Chicago");
   const [dirty,    setDirty]   = useState(false);
@@ -190,6 +195,15 @@ function ProfileSection() {
           style={{ width: "100%", background: "#080808", border: "1px solid #141414", outline: "none", padding: "10px 14px", fontFamily: inter, fontSize: 14, color: "#c0c0c0", resize: "vertical", lineHeight: 1.6, minHeight: 80 }}
         />
         <div style={{ fontFamily: inter, fontSize: 11, color: "#2a2a2a", marginTop: 5 }}>{bio.length} / 160 characters</div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 0 }}>
+        <div style={{ paddingRight: 16 }}>
+          <Input label="Primary email" value={email} onChange={mark(setEmail)} placeholder="you@example.com" />
+        </div>
+        <div>
+          <Input label="Recovery email" value={recovery} onChange={mark(setRecovery)} placeholder="backup@example.com" />
+        </div>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 0 }}>
@@ -402,10 +416,14 @@ function SecuritySection() {
 // ─── Agents section ───────────────────────────────────────────────
 function AgentsSection() {
   const agents = [
-    { name: "Lucidia",   role: "Cognition · Memory",    status: "running",  model: "llama3.2",    color: "#8844FF" },
-    { name: "BlackBot",  role: "Orchestration",         status: "degraded", model: "mistral",     color: "#FF6B2B" },
-    { name: "Aura",      role: "Intelligence",          status: "running",  model: "gemma2",      color: "#4488FF" },
-    { name: "Sentinel",  role: "Security · Monitoring", status: "running",  model: "phi4",        color: "#00D4FF" },
+    { name: "Alice",     role: "Orchestration · Gateway",   status: "running",  model: "llama3.2",    color: "#FF6B2B" },
+    { name: "Lucidia",   role: "Cognition · Memory · KG",   status: "running",  model: "llama3.2",    color: "#8844FF" },
+    { name: "Cecilia",   role: "Storage · Build Pipelines", status: "running",  model: "mistral",     color: "#CC00AA" },
+    { name: "Cece",      role: "Lightweight Tasks",         status: "running",  model: "phi4",        color: "#FF2255" },
+    { name: "Aria",      role: "Edge Compute · Sensors",    status: "running",  model: "gemma2",      color: "#4488FF" },
+    { name: "Eve",       role: "Monitoring · Observability", status: "running", model: "llama3.2",    color: "#00D4FF" },
+    { name: "Meridian",  role: "Routing · Mesh Coordination",status: "running", model: "mistral",     color: "#FF6B2B" },
+    { name: "Sentinel",  role: "Security · Anomaly Detection",status: "running",model: "phi4",        color: "#00D4FF" },
   ];
   const [memory, setMemory]   = useState(true);
   const [autoScale, setAuto]  = useState(false);
@@ -504,6 +522,207 @@ function DangerSection() {
   );
 }
 
+// ─── Account section ──────────────────────────────────────────────
+function AccountSection() {
+  return (
+    <div>
+      <SectionHead title="Account" sub="Organization details and company information." />
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {[
+          { label: "Company",       value: "BlackRoad OS, Inc." },
+          { label: "Entity type",   value: "Delaware C-Corp" },
+          { label: "Founder",       value: "Alexa Amundson" },
+          { label: "Primary email", value: "alexa@blackroad.io" },
+          { label: "Recovery email", value: "amundsonalexa@gmail.com" },
+          { label: "Website",       value: "blackroad.io" },
+        ].map(item => (
+          <div key={item.label} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontFamily: mono, fontSize: 10, color: "#2e2e2e", textTransform: "uppercase", letterSpacing: "0.1em" }}>{item.label}</span>
+            <span style={{ fontFamily: inter, fontSize: 13, color: "#c0c0c0" }}>{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Infrastructure section ──────────────────────────────────────
+function InfraSection() {
+  const nodes = [
+    { name: "Alice",     type: "Raspberry Pi 5", role: "Control Plane / Gateway", ip: "10.0.0.1", status: "running",  color: "#FF6B2B" },
+    { name: "Octavia",   type: "Raspberry Pi 5", role: "AI Worker (Hailo-8L, 1TB NVMe)", ip: "10.0.0.2", status: "running",  color: "#8844FF" },
+    { name: "Cecilia",   type: "Raspberry Pi 5", role: "Storage / Build",         ip: "10.0.0.3", status: "running",  color: "#CC00AA" },
+    { name: "Aria",      type: "Raspberry Pi 5", role: "Edge / Sensor",           ip: "10.0.0.4", status: "running",  color: "#4488FF" },
+    { name: "Gematria",  type: "DO Droplet",     role: "Cloud Redundancy",        ip: "10.0.0.5", status: "running",  color: "#00D4FF" },
+    { name: "Anastasia", type: "DO Droplet",     role: "Cloud Redundancy",        ip: "10.0.0.6", status: "running",  color: "#00D4FF" },
+    { name: "Pico W #1", type: "RP2040W",        role: "IoT Sensor Node",         ip: "10.0.0.10",status: "running",  color: "#FF2255" },
+    { name: "Pico W #2", type: "RP2040W",        role: "IoT Sensor Node",         ip: "10.0.0.11",status: "running",  color: "#FF2255" },
+  ];
+
+  return (
+    <div>
+      <SectionHead title="Infrastructure" sub="Hardware nodes, networking, and cluster configuration." />
+
+      <Label>Hardware nodes</Label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 28 }}>
+        {nodes.map(n => (
+          <div key={n.name} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "14px 16px", display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ width: 3, height: 36, background: n.color, flexShrink: 0 }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: grotesk, fontWeight: 600, fontSize: 14, color: "#d0d0d0", marginBottom: 2 }}>{n.name}</div>
+              <div style={{ fontFamily: mono, fontSize: 10, color: "#2a2a2a" }}>{n.type} · {n.role}</div>
+            </div>
+            <span style={{ fontFamily: mono, fontSize: 10, color: "#2a2a2a" }}>{n.ip}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00D4FF" }} />
+              <span style={{ fontFamily: mono, fontSize: 9, color: "#00D4FF" }}>{n.status}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+
+      <Label>Cluster stack</Label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 28 }}>
+        {[
+          { label: "K3s Cluster",     value: "4 Pi nodes (Alice control plane)" },
+          { label: "Docker Swarm",    value: "Container orchestration overlay" },
+          { label: "WireGuard Mesh",  value: "All 8 nodes, 10.0.0.0/24 subnet" },
+          { label: "Traefik Ingress", value: "Automatic TLS, Let's Encrypt" },
+          { label: "Cloudflare",      value: "20 zones, 48 subdomains, Workers edge" },
+        ].map(item => (
+          <div key={item.label} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ fontFamily: inter, fontSize: 13, color: "#c0c0c0" }}>{item.label}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: "#3a3a3a" }}>{item.value}</span>
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+
+      <Label>Tunnel & mesh config</Label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {[
+          { label: "WireGuard port",   value: "51820/udp" },
+          { label: "Mesh subnet",      value: "10.0.0.0/24" },
+          { label: "Cloudflare Tunnel",value: "cloudflared via Alice" },
+          { label: "DNS provider",     value: "Cloudflare (authoritative)" },
+        ].map(item => (
+          <div key={item.label} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontFamily: inter, fontSize: 13, color: "#c0c0c0" }}>{item.label}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: "#3a3a3a" }}>{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Domains section ─────────────────────────────────────────────
+function DomainsSection() {
+  return (
+    <div>
+      <SectionHead title="Domains" sub="Cloudflare DNS zones and subdomain routing." />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 28 }}>
+        {[
+          { label: "Total DNS zones",   value: "20" },
+          { label: "Total subdomains",  value: "48" },
+          { label: "Provider",          value: "Cloudflare" },
+          { label: "Edge Workers",      value: "Active" },
+        ].map(item => (
+          <div key={item.label} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontFamily: inter, fontSize: 13, color: "#c0c0c0" }}>{item.label}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: "#3a3a3a" }}>{item.value}</span>
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+
+      <Label>Key subdomains</Label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {[
+          { domain: "api.blackroad.io",      target: "REST API" },
+          { domain: "gateway.blackroad.io",  target: "API Gateway" },
+          { domain: "codex.blackroad.io",    target: "Knowledge API" },
+          { domain: "cloud.blackroad.io",    target: "BlackRoad Cloud dashboard" },
+          { domain: "git.blackroad.io",      target: "RoadCode (self-hosted Git)" },
+        ].map(item => (
+          <div key={item.domain} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <code style={{ fontFamily: mono, fontSize: 12, color: "#4488FF" }}>{item.domain}</code>
+            <span style={{ fontFamily: inter, fontSize: 12, color: "#3a3a3a" }}>{item.target}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Storage section ─────────────────────────────────────────────
+function StorageSection() {
+  return (
+    <div>
+      <SectionHead title="Storage" sub="Persistent storage across the BlackRoad infrastructure." />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {[
+          { label: "Google Drive",           value: "2 TB (cloud backup)" },
+          { label: "Octavia NVMe",           value: "1 TB (local fast storage)" },
+          { label: "Cecilia storage",        value: "Build artifacts, Git repos" },
+          { label: "PS-SHA∞ journal",        value: "Append-only agent memory" },
+        ].map(item => (
+          <div key={item.label} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ fontFamily: inter, fontSize: 13, color: "#c0c0c0" }}>{item.label}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, color: "#3a3a3a" }}>{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Billing section ─────────────────────────────────────────────
+function BillingSection() {
+  return (
+    <div>
+      <SectionHead title="Billing" sub="Stripe integration and subscription management." />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 28 }}>
+        {[
+          { label: "Stripe account",     value: "acct_1S70Zn3e5FMFdlFw" },
+          { label: "Status",             value: "Connected", color: "#00D4FF" },
+          { label: "Provider",           value: "Stripe" },
+          { label: "Company",            value: "BlackRoad OS, Inc." },
+        ].map(item => (
+          <div key={item.label} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontFamily: mono, fontSize: 10, color: "#2e2e2e", textTransform: "uppercase", letterSpacing: "0.1em" }}>{item.label}</span>
+            <span style={{ fontFamily: item.color ? mono : inter, fontSize: item.color ? 11 : 13, color: item.color || "#c0c0c0" }}>{item.value}</span>
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+
+      <Label>Products</Label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {[
+          { name: "BlackRoad Cloud",  status: "Active",  color: "#00D4FF" },
+          { name: "RoadCode",         status: "Active",  color: "#00D4FF" },
+          { name: "RoadChain",        status: "Beta",    color: "#FF6B2B" },
+          { name: "Lucidia",          status: "Active",  color: "#00D4FF" },
+        ].map(item => (
+          <div key={item.name} style={{ background: "#080808", border: "1px solid #0f0f0f", padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontFamily: inter, fontSize: 13, color: "#c0c0c0" }}>{item.name}</span>
+            <span style={{ fontFamily: mono, fontSize: 9, color: item.color, background: item.color + "12", border: `1px solid ${item.color}22`, padding: "2px 8px", letterSpacing: "0.04em" }}>{item.status}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Placeholder section ──────────────────────────────────────────
 function PlaceholderSection({ title, sub }) {
   return (
@@ -526,12 +745,15 @@ export default function BlackRoadSettings() {
 
   const CONTENT = {
     profile:  <ProfileSection />,
-    account:  <PlaceholderSection title="Account" sub="Organization details, plan, and seat management." />,
+    account:  <AccountSection />,
+    infra:    <InfraSection />,
     apikeys:  <ApiKeysSection />,
     agents:   <AgentsSection />,
+    domains:  <DomainsSection />,
+    storage:  <StorageSection />,
     security: <SecuritySection />,
     webhooks: <PlaceholderSection title="Webhooks" sub="Configure endpoints to receive real-time event payloads." />,
-    billing:  <PlaceholderSection title="Billing" sub="Manage your subscription, invoices, and payment methods." />,
+    billing:  <BillingSection />,
     danger:   <DangerSection />,
   };
 

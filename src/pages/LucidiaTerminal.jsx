@@ -50,9 +50,9 @@ const COMMANDS = {
   pwd: () => [{ t: "out", v: "/Users/alexa" }],
 
   whoami: () => [
-    { t: "out",   v: "blackroad@alexandria" },
+    { t: "out",   v: "lucidia@octavia" },
     { t: "dim",   v: "session · zsh · BlackRoad CLI v3" },
-    { t: "dim",   v: "workspace · blackroad-os · 15 orgs" },
+    { t: "dim",   v: "workspace · blackroad-os · 8 orgs · 186 repos · 48 domains" },
   ],
 
   layers: () => BOOT_LINES.map(l => ({ t: "green", v: l.text })),
@@ -60,16 +60,18 @@ const COMMANDS = {
   alias: () => Object.entries(ALIASES).map(([k, v]) => ({ t: "kv", k, v })),
 
   agents: () => [
-    { t: "dim",   v: "active agent fleet ·" },
+    { t: "dim",   v: "active agent fleet · 8 agents" },
     { t: "gap" },
-    { t: "agent", name: "Lucidia",   role: "cognition · memory",      status: "running", color: "#8844FF" },
-    { t: "agent", name: "BlackBot",  role: "orchestration · routing", status: "running", color: "#4488FF" },
-    { t: "agent", name: "Aura",      role: "intelligence · analysis", status: "idle",    color: "#00D4FF" },
-    { t: "agent", name: "Sentinel",  role: "security · monitoring",   status: "running", color: "#FF2255" },
-    { t: "agent", name: "Cecilia",   role: "core · identity",         status: "running", color: "#CC00AA" },
-    { t: "agent", name: "Alice",     role: "gateway · routing",       status: "running", color: "#FF6B2B" },
+    { t: "agent", name: "Alice",     role: "gateway · DNS",              status: "running", color: "#FF6B2B" },
+    { t: "agent", name: "Lucidia",   role: "memory · cognition",        status: "running", color: "#8844FF" },
+    { t: "agent", name: "Cecilia",   role: "edge · storage",            status: "running", color: "#CC00AA" },
+    { t: "agent", name: "Cece",      role: "API gateway",               status: "running", color: "#FF2255" },
+    { t: "agent", name: "Aria",      role: "agent orchestration",       status: "degraded", color: "#4488FF" },
+    { t: "agent", name: "Eve",       role: "intelligence",              status: "running", color: "#00D4FF" },
+    { t: "agent", name: "Meridian",  role: "networking",                status: "running", color: "#FF6B2B" },
+    { t: "agent", name: "Sentinel",  role: "security · compliance",     status: "running", color: "#4488FF" },
     { t: "gap" },
-    { t: "dim",   v: "5/6 running · 1 idle · next: 30,000 agent scale (v2.0)" },
+    { t: "dim",   v: "7/8 running · 1 degraded · 186 repos · 48 domains" },
   ],
 
   chain: () => {
@@ -100,13 +102,16 @@ const COMMANDS = {
   ],
 
   cluster: () => [
-    { t: "dim",   v: "K3s cluster · alice Pi400 + octavia Pi5 + cecilia Pi5" },
+    { t: "dim",   v: "BlackRoad OS infrastructure · 4 pis + 2 droplets" },
     { t: "gap" },
-    { t: "node",  name: "alice",   role: "gateway · Redis · NATS",            ip: "192.168.1.10", status: "Ready", color: "#FF6B2B" },
-    { t: "node",  name: "octavia", role: "Hailo-8L · 26 TOPS · LiteLLM",      ip: "192.168.1.11", status: "Ready", color: "#4488FF" },
-    { t: "node",  name: "cecilia", role: "Pi5 · Ollama · PS-SHA-∞ journal",   ip: "192.168.1.12", status: "Ready", color: "#CC00AA" },
+    { t: "node",  name: "alice",     role: "Pi 400 · gateway · pi-hole · postgresql · cloudflared",    ip: "192.168.4.49", status: "Ready", color: "#FF6B2B" },
+    { t: "node",  name: "octavia",   role: "Pi 5 · compute · ollama · nats · gitea · influxdb",        ip: "192.168.4.97", status: "Ready", color: "#4488FF" },
+    { t: "node",  name: "cecilia",   role: "Pi 5 · edge · minio · caddy · hailo-ai",                   ip: "192.168.4.96", status: "Ready", color: "#CC00AA" },
+    { t: "node",  name: "aria",      role: "Pi 4 · agents · docker",                                   ip: "192.168.4.98", status: "Ready", color: "#8844FF" },
+    { t: "node",  name: "gematria",  role: "DO NYC3 · caddy · ollama · nats · cloudflared",             ip: "159.65.43.12", status: "Ready", color: "#00D4FF" },
+    { t: "node",  name: "anastasia", role: "DO NYC1 · headscale · nginx · redis · wireguard",           ip: "174.138.44.45", status: "Ready", color: "#FF2255" },
     { t: "gap" },
-    { t: "green", v: "✓ 3/3 nodes Ready · K3s v1.30 · Traefik routing active" },
+    { t: "green", v: "✓ 6/6 nodes Ready · 186 repos · 48 domains" },
   ],
 
   "br-check": () => [
@@ -233,9 +238,9 @@ function Prompt({ value, onChange, onSubmit, onUp, onDown }) {
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-      <span style={{ fontFamily: mono, fontSize: 12, color: "#FF6B2B", flexShrink: 0 }}>blackroad</span>
+      <span style={{ fontFamily: mono, fontSize: 12, color: "#8844FF", flexShrink: 0 }}>lucidia</span>
       <span style={{ fontFamily: mono, fontSize: 12, color: "#CC00AA", flexShrink: 0 }}>@</span>
-      <span style={{ fontFamily: mono, fontSize: 12, color: "#8844FF", flexShrink: 0 }}>alexandria</span>
+      <span style={{ fontFamily: mono, fontSize: 12, color: "#FF6B2B", flexShrink: 0 }}>octavia</span>
       <span style={{ fontFamily: mono, fontSize: 12, color: "#333", flexShrink: 0 }}> ~ $&nbsp;</span>
       <input
         ref={ref}
@@ -392,7 +397,7 @@ export default function LucidiaTerminal() {
 
           {/* Tab bar — like screenshot */}
           <div style={{ display: "flex", gap: 2, alignItems: "center" }}>
-            {["-- GitHub Copilot -- zsh -l", "-- GitHub Copilot -- zsh"].map((label, i) => (
+            {["lucidia@octavia -- zsh -l", "blackroad@alice -- zsh"].map((label, i) => (
               <button key={i} onClick={() => setTab(i)}
                 style={{ fontFamily: mono, fontSize: 11, color: tab === i ? "#c0c0c0" : "#333", background: tab === i ? "#1c1c1c" : "none", border: "none", padding: "4px 14px", cursor: "pointer", borderTop: tab === i ? `1px solid ${STOPS[i * 2]}55` : "1px solid transparent", transition: "all 0.15s" }}
               >{label}</button>
@@ -418,9 +423,9 @@ export default function LucidiaTerminal() {
           {booted && lines.length === 0 && (
             <div style={{ marginTop: 4 }}>
               <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
-                <span style={{ fontFamily: mono, fontSize: 12, color: "#FF6B2B" }}>blackroad</span>
+                <span style={{ fontFamily: mono, fontSize: 12, color: "#8844FF" }}>lucidia</span>
                 <span style={{ fontFamily: mono, fontSize: 12, color: "#CC00AA" }}>@</span>
-                <span style={{ fontFamily: mono, fontSize: 12, color: "#8844FF" }}>alexandria</span>
+                <span style={{ fontFamily: mono, fontSize: 12, color: "#FF6B2B" }}>octavia</span>
                 <span style={{ fontFamily: mono, fontSize: 12, color: "#333" }}>~ $</span>
                 <span style={{ fontFamily: mono, fontSize: 12, color: "#444" }}>pwd</span>
               </div>
@@ -434,9 +439,9 @@ export default function LucidiaTerminal() {
             <div key={bi} style={{ marginBottom: 8, animation: "fadeIn 0.15s ease" }}>
               {/* Prompt echo */}
               <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 2 }}>
-                <span style={{ fontFamily: mono, fontSize: 12, color: "#FF6B2B" }}>blackroad</span>
+                <span style={{ fontFamily: mono, fontSize: 12, color: "#8844FF" }}>lucidia</span>
                 <span style={{ fontFamily: mono, fontSize: 12, color: "#CC00AA" }}>@</span>
-                <span style={{ fontFamily: mono, fontSize: 12, color: "#8844FF" }}>alexandria</span>
+                <span style={{ fontFamily: mono, fontSize: 12, color: "#FF6B2B" }}>octavia</span>
                 <span style={{ fontFamily: mono, fontSize: 12, color: "#333" }}>&nbsp;~&nbsp;$&nbsp;</span>
                 <span style={{ fontFamily: mono, fontSize: 12, color: "#c0c0c0" }}>{block.prompt.cmd}</span>
                 <span style={{ fontFamily: mono, fontSize: 10, color: "#141414", marginLeft: "auto" }}>{block.prompt.ts}</span>

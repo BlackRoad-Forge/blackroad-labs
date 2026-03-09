@@ -18,39 +18,39 @@ const STATUS = {
 // ─── Services ────────────────────────────────────────────────────
 const SERVICES = [
   {
-    group: "Core Infrastructure",
+    group: "Raspberry Pi Fleet",
     items: [
-      { id: "k3s",       name: "K3s Cluster",        status: "operational",  uptime: 99.98, latency: "12ms"  },
-      { id: "alice",     name: "Alice · Gateway",    status: "operational",  uptime: 99.97, latency: "4ms"   },
-      { id: "octavia",   name: "Octavia · Hailo AI", status: "operational",  uptime: 99.91, latency: "38ms"  },
-      { id: "traefik",   name: "Traefik Ingress",    status: "operational",  uptime: 99.99, latency: "2ms"   },
+      { id: "alice",     name: "Alice · Pi 400 · Gateway (.49)",      status: "operational",  uptime: 99.97, latency: "4ms"   },
+      { id: "octavia",   name: "Octavia · Pi 5 · Compute (.97)",      status: "operational",  uptime: 99.91, latency: "12ms"  },
+      { id: "cecilia",   name: "Cecilia · Pi 5 · Edge (.96)",         status: "operational",  uptime: 99.94, latency: "8ms"   },
+      { id: "aria",      name: "Aria · Pi 4 · Agents (.98)",          status: "degraded",     uptime: 97.80, latency: "42ms"  },
     ],
   },
   {
-    group: "Agent Fleet",
+    group: "Cloud & Droplets",
     items: [
-      { id: "lucidia",   name: "Lucidia",            status: "operational",  uptime: 99.95, latency: "22ms"  },
-      { id: "blackbot",  name: "BlackBot",           status: "degraded",     uptime: 97.40, latency: "210ms" },
-      { id: "aura",      name: "Aura",               status: "operational",  uptime: 99.88, latency: "41ms"  },
-      { id: "sentinel",  name: "Sentinel",           status: "operational",  uptime: 100.0, latency: "8ms"   },
+      { id: "gematria",  name: "Gematria · NYC3 (159.65.43.12)",     status: "operational",  uptime: 99.99, latency: "18ms"  },
+      { id: "anastasia", name: "Anastasia · NYC1 (174.138.44.45)",   status: "operational",  uptime: 99.98, latency: "22ms"  },
+      { id: "picow1",    name: "Pico W #1 (.95)",                     status: "operational",  uptime: 99.60, latency: "85ms"  },
+      { id: "picow2",    name: "Pico W #2 (.99)",                     status: "operational",  uptime: 99.55, latency: "90ms"  },
     ],
   },
   {
-    group: "API & Edge",
+    group: "Services",
     items: [
-      { id: "rest",      name: "REST API",           status: "operational",  uptime: 99.99, latency: "18ms"  },
-      { id: "webhooks",  name: "Webhooks",           status: "operational",  uptime: 99.82, latency: "55ms"  },
-      { id: "edge",      name: "Edge Workers",       status: "operational",  uptime: 99.97, latency: "6ms"   },
-      { id: "ws",        name: "WebSocket",          status: "maintenance",  uptime: 99.60, latency: "—"     },
+      { id: "roadcode",  name: "RoadCode · Gitea (:3100)",           status: "operational",  uptime: 99.96, latency: "14ms"  },
+      { id: "brcloud",   name: "BlackRoad Cloud (:3200)",             status: "operational",  uptime: 99.95, latency: "6ms"   },
+      { id: "ollama",    name: "Ollama · LLM Inference (:11434)",     status: "operational",  uptime: 99.88, latency: "38ms"  },
+      { id: "pihole",    name: "Pi-hole · DNS",                       status: "operational",  uptime: 99.99, latency: "2ms"   },
     ],
   },
   {
-    group: "Data Layer",
+    group: "Networking & Tunnels",
     items: [
-      { id: "redis",     name: "Redis",              status: "operational",  uptime: 99.99, latency: "1ms"   },
-      { id: "storage",   name: "Object Storage",     status: "operational",  uptime: 99.96, latency: "28ms"  },
-      { id: "memory",    name: "Memory Journal",     status: "operational",  uptime: 99.94, latency: "15ms"  },
-      { id: "logs",      name: "Log Pipeline",       status: "operational",  uptime: 99.89, latency: "44ms"  },
+      { id: "cftunnels", name: "Cloudflare Tunnels (6)",              status: "operational",  uptime: 99.97, latency: "8ms"   },
+      { id: "wireguard", name: "WireGuard Mesh · Anastasia Hub",     status: "operational",  uptime: 99.98, latency: "5ms"   },
+      { id: "docker",    name: "Docker Swarm",                        status: "operational",  uptime: 99.93, latency: "10ms"  },
+      { id: "postgres",  name: "PostgreSQL",                          status: "operational",  uptime: 99.99, latency: "3ms"   },
     ],
   },
 ];
@@ -59,39 +59,51 @@ const SERVICES = [
 const INCIDENTS = [
   {
     id: "INC-0041",
-    title: "BlackBot elevated response latency",
+    title: "Aria agent orchestration degraded — investigating",
     status: "investigating",
     statusColor: "#FF6B2B",
     date: "Mar 08, 2026",
-    time: "02:14 UTC",
+    time: "04:32 UTC",
     updates: [
-      { time: "03:01 UTC", text: "We have identified the root cause — a memory journal lock during a high-concurrency task burst. A fix is being deployed to the Octavia node." },
-      { time: "02:31 UTC", text: "Investigation ongoing. BlackBot remains functional but response times are elevated (avg 210ms vs 40ms baseline). Other agents unaffected." },
-      { time: "02:14 UTC", text: "We are investigating reports of increased latency on the BlackBot agent. All other services are operating normally." },
+      { time: "05:10 UTC", text: "Root cause identified — Docker container on Aria (Pi 4, .98) hit memory limit during multi-agent task burst. Restarting agent containers and increasing swap allocation." },
+      { time: "04:48 UTC", text: "Aria agent orchestration responding but elevated latency (avg 42ms vs 12ms baseline). Other Pi nodes and all Cloudflare tunnels unaffected." },
+      { time: "04:32 UTC", text: "Monitoring detected degraded performance on Aria (10.8.0.7). Investigating agent orchestration service on Pi 4." },
     ],
   },
   {
     id: "INC-0040",
-    title: "WebSocket connections temporarily unavailable",
-    status: "scheduled maintenance",
-    statusColor: "#8844FF",
-    date: "Mar 08, 2026",
-    time: "00:00 UTC",
+    title: "RoadCode sync completed — 186 repos mirrored",
+    status: "resolved",
+    statusColor: "#00D4FF",
+    date: "Mar 07, 2026",
+    time: "22:00 UTC",
     updates: [
-      { time: "00:00 UTC", text: "Scheduled maintenance window for WebSocket infrastructure upgrade. Expected duration: 4 hours. REST API and all agents remain fully operational." },
+      { time: "22:45 UTC", text: "RoadCode sync completed successfully. All 186 repositories across 8 organizations mirrored to Octavia (Pi 5, :3100). No data loss detected." },
+      { time: "22:00 UTC", text: "Scheduled RoadCode sync initiated — mirroring all repositories from blackroad-os, lucidia, roadchain, infrastructure, agents, platform, services, and tools orgs." },
     ],
   },
   {
     id: "INC-0039",
-    title: "Intermittent Edge Worker timeouts — resolved",
+    title: "Cloudflare Pages deploy — blackroad.io updated",
     status: "resolved",
     statusColor: "#00D4FF",
     date: "Mar 06, 2026",
-    time: "14:22 UTC",
+    time: "16:14 UTC",
     updates: [
-      { time: "16:08 UTC", text: "Issue fully resolved. Edge Worker response times have returned to baseline (<8ms). Root cause: stale Cloudflare routing table entry, now cleared." },
-      { time: "15:41 UTC", text: "Cloudflare cache purge complete. Monitoring for recurrence." },
-      { time: "14:22 UTC", text: "Investigating intermittent timeouts affecting ~2% of Edge Worker requests in the EU-West region." },
+      { time: "16:22 UTC", text: "Cloudflare Pages deployment successful across all 20 zones. 48 domains verified, 6 tunnels healthy. Edge propagation complete." },
+      { time: "16:14 UTC", text: "Initiated Cloudflare Pages deploy for BlackRoad Cloud. Build triggered from RoadCode push to main branch." },
+    ],
+  },
+  {
+    id: "INC-0038",
+    title: "Google Drive backup — full infrastructure snapshot",
+    status: "resolved",
+    statusColor: "#00D4FF",
+    date: "Mar 05, 2026",
+    time: "03:00 UTC",
+    updates: [
+      { time: "03:47 UTC", text: "Google Drive backup completed. Full snapshot of RoadCode repos, Pi-hole configs, PostgreSQL dumps, and WireGuard mesh configs archived. Next backup scheduled in 24h." },
+      { time: "03:00 UTC", text: "Automated Google Drive backup initiated from Alice (Pi 400). Backing up infrastructure state across all 4 Pis and 2 Droplets." },
     ],
   },
 ];
@@ -388,7 +400,7 @@ export default function BlackRoadStatus() {
             <MetricPill label="Avg Uptime · 90d"   value={`${avgUptime}%`}      color="#00D4FF" />
             <MetricPill label="Active Incidents"    value={`${activeIncidents}`} color={activeIncidents > 0 ? "#FF6B2B" : "#00D4FF"} />
             <MetricPill label="Services Monitored"  value={`${allItems.length}`} color="#8844FF" />
-            <MetricPill label="Edge Latency · p50"  value="6ms"                  color="#4488FF" />
+            <MetricPill label="Nodes Online"          value="8"                    color="#4488FF" />
           </div>
 
           {/* ── Tabs ─────────────────────────────────────────── */}

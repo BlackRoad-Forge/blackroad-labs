@@ -11,17 +11,17 @@ const inter   = "'Inter', sans-serif";
 const MILESTONES = [
   {
     version: "v0.1",
-    name: "Core Scaffold",
-    target: "March 2026",
+    name: "Foundation — Shipped",
+    target: "Q1 2026",
     status: "active",
     color: "#FF6B2B",
     items: [
-      "10-layer @BlackRoadBot engine",
-      "@blackroad-agents GitHub webhook",
-      "15-org routing matrix",
-      "Ollama Pi cluster integration",
-      "Request ID tracking",
-      "Layer 6 failure → auto GitHub Issue",
+      "RoadCode deployed on Octavia Pi 5 (186 repos migrated)",
+      "BlackRoad Cloud live on Cloudflare Workers",
+      "Stripe integration (test mode) — 3 pricing tiers",
+      "8 agents running across Pi cluster + droplets",
+      "Cloudflare tunnels active on Alice (8 connections)",
+      "48 domains registered and routed",
     ],
   },
   {
@@ -40,29 +40,29 @@ const MILESTONES = [
   },
   {
     version: "v0.3",
-    name: "Platform Integrations",
+    name: "Auth & Storage",
     target: "April 2026",
     status: "upcoming",
     color: "#CC00AA",
     items: [
-      "Salesforce Apex middleware + Data Cloud",
-      "Hugging Face Inference Endpoint deployment",
-      "DigitalOcean doctl droplet lifecycle",
-      "Railway ephemeral environments",
+      "Clerk auth integration for BlackRoad Cloud",
+      "Live mode Stripe payments (Sovereign, Gateway Pro, Gateway Team)",
+      "MinIO / RoadDrive on Cecilia Pi 5",
+      "Ollama inference via ollama.blackroad.io tunnel",
       "LiteLLM proxy on Octavia + Cecilia",
       "Round-robin Pi cluster load balancing",
     ],
   },
   {
     version: "v0.4",
-    name: "Website Layer",
+    name: "Full Deployment",
     target: "May 2026",
     status: "upcoming",
     color: "#8844FF",
     items: [
+      "Deploy all 135+ projects from RoadCode",
       "Headless CMS + Vercel rebuild hooks",
-      "Wix Harmony Aria agent integration",
-      "Blackbox AI multi-agent dispatch",
+      "Lucidia companion app launch on lucidia.earth",
       "Layer 10 Website Editor — fully operational",
     ],
   },
@@ -74,7 +74,7 @@ const MILESTONES = [
     color: "#4488FF",
     items: [
       "All P0–P1 features shipped",
-      "Full 15-org GitHub Enterprise coverage",
+      "Full 8-org RoadCode coverage",
       "RoadChain live + stable",
       "LiteLLM proxy stable",
       "HITL gates tested",
@@ -128,9 +128,9 @@ const STACK_LAYERS = [
 ];
 
 const METRICS = [
-  { label: "GitHub Orgs",       value: "15",      sub: "under blackroad-os enterprise",   color: "#4488FF" },
-  { label: "Scaffold Layers",   value: "10",      sub: "@BlackRoadBot deca-layer engine",  color: "#8844FF" },
-  { label: "Agents — v1.0",     value: "1,000",   sub: "target Q2 2026",                  color: "#FF6B2B" },
+  { label: "RoadCode Repos",    value: "186",     sub: "migrated to self-hosted Gitea",   color: "#4488FF" },
+  { label: "Domains",           value: "48",      sub: "registered and routed",            color: "#8844FF" },
+  { label: "Active Agents",     value: "8",       sub: "across Pi cluster + droplets",    color: "#FF6B2B" },
   { label: "Agents — v2.0",     value: "30,000",  sub: "target Q4 2026",                  color: "#00D4FF" },
   { label: "Seed Raise",        value: "$2.5M",   sub: "18-month runway to Series A",     color: "#CC00AA" },
   { label: "ARR Target",        value: "$1M",     sub: "Series A milestone",              color: "#FF2255" },
@@ -401,7 +401,7 @@ export default function BlackRoadRoadmap() {
 
           {/* ── Hero ───────────────────────────────────────────── */}
           <section style={{ padding: mobile ? "52px 0 40px" : "80px 0 60px", borderBottom: "1px solid #0a0a0a" }}>
-            <EyeBrow>BlackRoad OS · Developer Roadmap · 2026</EyeBrow>
+            <EyeBrow>BlackRoad OS, Inc. · Developer Roadmap · 2026</EyeBrow>
             <h1 style={{ fontFamily: grotesk, fontWeight: 700, fontSize: "clamp(32px, 7vw, 68px)", color: "#f0f0f0", letterSpacing: "-0.04em", lineHeight: 1.0, marginBottom: 20 }}>
               From vision<br />to 30,000 agents.
             </h1>
@@ -613,10 +613,10 @@ export default function BlackRoadRoadmap() {
               </Section>
 
               <div style={{ display: "grid", gridTemplateColumns: `repeat(${mobile ? 2 : 5}, 1fr)`, gap: 2, marginBottom: 48 }}>
-                {["Lucidia","BlackBot","Aura","Sentinel","Alice","Cecilia","Octavia","RoadBot","Orchestr.","...+990"].map((name, i) => (
+                {["Alice","Lucidia","Cecilia","Cece","Aria","Eve","Meridian","Sentinel","...+992","...+29K"].map((name, i) => (
                   <div key={name} style={{ padding: "12px 14px", background: "#080808", border: "1px solid #0d0d0d", display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 4, height: 4, borderRadius: "50%", background: STOPS[i % STOPS.length], flexShrink: 0 }} />
-                    <span style={{ fontFamily: inter, fontSize: 12, color: i === 9 ? "#1e1e1e" : "#484848" }}>{name}</span>
+                    <span style={{ fontFamily: inter, fontSize: 12, color: i >= 8 ? "#1e1e1e" : "#484848" }}>{name}</span>
                   </div>
                 ))}
               </div>

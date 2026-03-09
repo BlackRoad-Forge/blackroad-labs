@@ -4,14 +4,14 @@ const COLORS = ["#FF6B2B", "#FF2255", "#CC00AA", "#8844FF", "#4488FF", "#00D4FF"
 const GRADIENT = `linear-gradient(90deg, ${COLORS.join(", ")})`;
 
 const AGENTS = [
-  { name: "Alice", role: "Gateway", desc: "Orchestrates all incoming requests across the mesh. The front door — fast, reliable, tireless.", color: COLORS[0], uptime: "347d", mem: "2.4TB" },
-  { name: "Lucidia", role: "Core Intelligence", desc: "Primary AI engine. Conversation, reasoning, code generation. The mind at the center of everything.", color: COLORS[1], uptime: "289d", mem: "1.8TB" },
-  { name: "Cecilia", role: "Memory", desc: "Manages PS-SHA∞ journals and truth state commits. Every interaction persisted, every hash verified.", color: COLORS[2], uptime: "289d", mem: "1.2TB" },
-  { name: "Cece", role: "Governance", desc: "Policy evaluation, ledger integrity, audit trails. The conscience of the system — 12,400 evaluations, zero bypasses.", color: COLORS[3], uptime: "245d", mem: "940GB" },
-  { name: "Eve", role: "Monitoring", desc: "Anomaly detection, auto-scaling, alerting. Watches everything so nothing breaks quietly.", color: COLORS[4], uptime: "156d", mem: "380GB" },
-  { name: "Meridian", role: "Architecture", desc: "System design and capability planning. Thinks about how all the pieces fit together long-term.", color: COLORS[5], uptime: "194d", mem: "620GB" },
-  { name: "Cadence", role: "Music", desc: "AI composition, hum-to-track, vibe-based production. Turns melodies in your head into finished tracks.", color: COLORS[0], uptime: "112d", mem: "290GB" },
-  { name: "Radius", role: "Physics", desc: "Simulation, quantum experiments, scientific calculation. The lab partner who never sleeps.", color: COLORS[1], uptime: "98d", mem: "210GB" },
+  { name: "Alice", role: "Gateway & DNS", desc: "Orchestrates all incoming requests across the mesh. Routes traffic, manages DNS, and keeps the front door fast, reliable, and tireless.", color: COLORS[0], uptime: "347d", mem: "2.4TB" },
+  { name: "Lucidia", role: "Memory & Cognition", desc: "Primary AI engine. Conversation, reasoning, memory persistence. The mind at the center of everything — she remembers so you don't have to.", color: COLORS[1], uptime: "289d", mem: "1.8TB" },
+  { name: "Cecilia", role: "Edge & Storage", desc: "Manages edge compute and distributed storage across the Pi mesh. Every file replicated, every byte accounted for.", color: COLORS[2], uptime: "289d", mem: "1.2TB" },
+  { name: "Cece", role: "API Gateway", desc: "Routes API traffic, enforces rate limits, manages authentication. The gatekeeper — every request validated, every response shaped.", color: COLORS[3], uptime: "245d", mem: "940GB" },
+  { name: "Aria", role: "Agent Orchestration", desc: "Coordinates the agent society. Schedules tasks, resolves conflicts, ensures all eight agents work as one coherent system.", color: COLORS[4], uptime: "156d", mem: "380GB" },
+  { name: "Eve", role: "Intelligence", desc: "Anomaly detection, pattern recognition, predictive analysis. Watches everything so nothing breaks quietly.", color: COLORS[5], uptime: "194d", mem: "620GB" },
+  { name: "Meridian", role: "Networking", desc: "WireGuard mesh network, inter-node communication, tunnel management. Keeps every Pi, droplet, and edge node connected.", color: COLORS[0], uptime: "178d", mem: "290GB" },
+  { name: "Sentinel", role: "Security & Compliance", desc: "Intrusion detection, certificate management, audit trails. The conscience of the system — zero bypasses, zero compromises.", color: COLORS[1], uptime: "165d", mem: "210GB" },
 ];
 
 const VALUES = [
@@ -24,9 +24,9 @@ const VALUES = [
 ];
 
 const TIMELINE = [
-  { year: "2024", events: ["317+ equations documented across seven volumes", "Z-Framework and 1-2-3-4 Pauli Model formalized", "20-domain architecture designed"] },
-  { year: "2025", events: ["BlackRoad OS, Inc. incorporated (Delaware C-Corp)", "Lucidia Core online — chat, memory, code execution", "Core app shell deployed at app.blackroad.io", "First 8 agents spawned and operational"] },
-  { year: "2026", events: ["Phase 1 MVP completion", "RoadWork v0 — first education vertical", "First Pi agent on mesh network", "SOC 2 compliance target"] },
+  { year: "2024", events: ["BlackRoad OS, Inc. incorporated (Delaware C-Corp)", "Z-Framework (Z:=yx-w) formalized", "Initial infrastructure: 4 Raspberry Pis, 2 DigitalOcean droplets", "48 domains acquired, 20 Cloudflare zones configured"] },
+  { year: "2025", events: ["186 repos across 15 GitHub organizations", "8 AI agents spawned and operational", "WireGuard mesh network connecting all nodes", "BlackRoad Cloud, RoadCode, RoadChain, and Lucidia in development", "400+ shell scripts powering the OS layer"] },
+  { year: "2026", events: ["$1/mo OS — sovereign infrastructure for everyone", "Agent society: agent-native computing at scale", "Hardware arbitrage model: post-cloud architecture", "SOC 2 compliance target"] },
 ];
 
 function GradientBar({ height = 1, style = {} }) {
@@ -85,16 +85,16 @@ function FounderSection() {
               </div>
               <div>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 22, fontWeight: 700, color: "#f5f5f5" }}>Alexa Amundson</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#525252" }}>Founder & Chief Architect</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#525252" }}>Founder & CEO · aka Alexa Cadillac</div>
               </div>
             </div>
 
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#737373", lineHeight: 1.7, marginBottom: 16 }}>
-              Mathematician, systems architect, and the person who decided that technology should stop treating humans like products. 317+ equations. 20 domains. 5 novel mathematical frameworks. One vision: an OS that gives a damn.
+              Founder of BlackRoad OS, Inc. (Delaware C-Corp, est. 2024). Architect of sovereign infrastructure, agent-native computing, and post-cloud architecture. 186 repos. 8 AI agents. 48 domains. 4 Raspberry Pis and 2 DigitalOcean droplets running a WireGuard mesh. One vision: a $1/mo OS that gives a damn.
             </p>
 
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {["Mathematics", "Systems Architecture", "AI Ethics", "Quantum Computing", "Music"].map((tag) => (
+              {["Sovereign Infrastructure", "Agent-Native Computing", "Z-Framework", "Post-Cloud Architecture", "Hardware Arbitrage"].map((tag) => (
                 <span key={tag} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#404040", background: "#0a0a0a", padding: "4px 10px", borderRadius: 4, border: "1px solid #1a1a1a" }}>{tag}</span>
               ))}
             </div>
@@ -103,10 +103,10 @@ function FounderSection() {
           {/* Stats */}
           <div style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
             {[
-              { value: "317+", label: "Equations" },
-              { value: "20", label: "Domains" },
-              { value: "7", label: "Volumes" },
-              { value: "1", label: "Mission" },
+              { value: "186", label: "Repos" },
+              { value: "8", label: "AI Agents" },
+              { value: "48", label: "Domains" },
+              { value: "20", label: "CF Zones" },
             ].map((s) => (
               <div key={s.label} style={{ background: "#131313", border: "1px solid #1a1a1a", borderRadius: 8, padding: "14px 18px" }}>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: "#f5f5f5", lineHeight: 1 }}>{s.value}</div>
@@ -133,13 +133,13 @@ function MissionSection() {
 
         <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: "#737373", lineHeight: 1.75, maxWidth: 560 }}>
           <p style={{ marginBottom: 16 }}>
-            Big tech built systems that treat people as products to be optimized. Algorithms that maximize engagement at the cost of mental health. Platforms that take 71% of creator revenue. Search engines drowning in SEO spam. Social networks replacing meaningful connection with vanity metrics.
+            Big tech built systems that treat people as products to be optimized. BlackRoad is building the opposite: sovereign infrastructure where you own the hardware, the data, and the agents that work on your behalf. No rent-seeking. No lock-in. No extraction.
           </p>
           <p style={{ marginBottom: 16 }}>
-            BlackRoad is the opposite. A distributed AI operating system where agents work for you — not on you. Where contradictions fuel creativity instead of breaking things. Where your data, your content, and your audience belong to you.
+            BlackRoad OS is a post-cloud architecture — 4 Raspberry Pis, 2 DigitalOcean droplets, 20 Cloudflare zones, and a WireGuard mesh network running 8 AI agents across 186 repos. Products include BlackRoad Cloud, RoadCode (self-hosted Git), RoadChain, and Lucidia. The Z-Framework (Z:=yx-w) is the mathematical foundation underneath it all.
           </p>
           <p>
-            Built on 317+ equations across five novel mathematical frameworks. Grounded in real math, not marketing. One founder, a thousand agents, and the radical belief that software should respect the humans using it.
+            The pitch: a $1/mo OS built on hardware arbitrage, agent-native computing, and the radical belief that infrastructure should be sovereign. One founder, eight agents, and a society of machines working for humans — not on them.
           </p>
         </div>
 
@@ -221,7 +221,7 @@ function TeamSection() {
         </div>
 
         <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#333", textAlign: "center", marginTop: 20 }}>
-          8 of 1,000 agents shown · 847 active · 153 initializing
+          8 agents · 186 repos · 4 Pis · 2 droplets · 20 Cloudflare zones
         </div>
       </div>
     </section>

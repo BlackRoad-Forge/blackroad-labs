@@ -504,12 +504,12 @@ function RadialProgress({ value = 72, color = "#8844FF" }) {
 
 function NetworkGraph() {
   const nodes = [
-    { x: 50, y: 50, r: 8, c: "#8844FF", label: "Core" },
-    { x: 20, y: 20, r: 5, c: "#FF6B2B", label: "A" },
-    { x: 80, y: 20, r: 5, c: "#FF2255", label: "B" },
-    { x: 80, y: 80, r: 5, c: "#4488FF", label: "C" },
-    { x: 20, y: 80, r: 5, c: "#00D4FF", label: "D" },
-    { x: 50, y: 15, r: 4, c: "#CC00AA", label: "E" },
+    { x: 50, y: 50, r: 8, c: "#8844FF", label: "Lucidia" },
+    { x: 20, y: 20, r: 5, c: "#FF6B2B", label: "Alice" },
+    { x: 80, y: 20, r: 5, c: "#FF2255", label: "Cece" },
+    { x: 80, y: 80, r: 5, c: "#4488FF", label: "Aria" },
+    { x: 20, y: 80, r: 5, c: "#00D4FF", label: "Eve" },
+    { x: 50, y: 15, r: 4, c: "#CC00AA", label: "Cecilia" },
   ];
   const edges = [[0,1],[0,2],[0,3],[0,4],[0,5],[1,5],[2,5]];
   return (
@@ -737,7 +737,7 @@ export default function AnimationLibrary() {
         {/* Hero */}
         <div style={{ padding: "60px 28px 40px", maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.16em", marginBottom: 16 }}>
-            BlackRoad · Animation Library · v1.0
+            BlackRoad OS, Inc. · Animation Library · v1.0
           </div>
           <h1 style={{ fontFamily: sans, fontWeight: 700, fontSize: "clamp(36px,6vw,64px)", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 16 }}>
             <span style={{ background: GRAD, backgroundSize: "200%", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradShift 3s linear infinite" }}>
@@ -773,7 +773,7 @@ export default function AnimationLibrary() {
 
         {/* Footer */}
         <div style={{ borderTop: "1px solid #0a0a0a", padding: "24px 28px", display: "flex", justifyContent: "space-between" }}>
-          <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>BlackRoad OS · Animation Library</span>
+          <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>BlackRoad OS, Inc. · Animation Library · 186 repos · 48 domains · 8 agents</span>
           <span style={{ fontFamily: mono, fontSize: 9, color: "#0d0d0d" }}>Z:=yx−w · 2026</span>
         </div>
       </div>

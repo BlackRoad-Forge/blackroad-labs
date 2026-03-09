@@ -6,54 +6,85 @@ const mono    = "'JetBrains Mono', monospace";
 const grotesk = "'Space Grotesk', sans-serif";
 const inter   = "'Inter', sans-serif";
 
-// ─── Mock data generator ─────────────────────────────────────────
-const AGENTS    = ["Lucidia","BlackBot","Aura","Sentinel","Orchestr."];
-const METHODS   = ["POST","GET","DELETE","PATCH","PUT"];
-const ROUTES    = ["/v1/agents/spawn","/v1/events/publish","/v1/memory/read","/v1/agents/chat","/v1/tasks/create","/v1/webhooks/trigger","/v1/agents/list","/v1/memory/commit"];
-const STATUSES  = [200,200,200,200,201,204,400,401,429,500];
-const REGIONS   = ["us-central","eu-west","ap-south"];
-const EVENTS    = ["agent.spawned","task.created","memory.commit","event.published","webhook.triggered","auth.success","auth.failure","agent.error","task.completed","rate.limited"];
+// ─── Real BlackRoad infrastructure data ──────────────────────────
+const AGENTS = ["Alice","Lucidia","Cecilia","Cece","Aria","Eve","Meridian","Sentinel"];
 
-function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-function rndInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+const ORGS = [
+  { name: "blackroad-os",   repos: 42, color: "#FF2255" },
+  { name: "lucidia",        repos: 18, color: "#8844FF" },
+  { name: "roadchain",      repos: 12, color: "#FF6B2B" },
+  { name: "infrastructure", repos: 24, color: "#00D4FF" },
+  { name: "agents",         repos: 22, color: "#CC00AA" },
+  { name: "platform",       repos: 28, color: "#4488FF" },
+  { name: "services",       repos: 20, color: "#00D4FF" },
+  { name: "tools",          repos: 20, color: "#FF6B2B" },
+];
 
-function genRow(id) {
-  const status  = rnd(STATUSES);
-  const method  = rnd(METHODS);
-  const agent   = rnd(AGENTS);
-  const ms      = rndInt(2, 480);
-  const ts      = new Date(Date.now() - rndInt(0, 86400000 * 7));
-  return {
-    id: `evt_${(id + 1000).toString(36)}`,
-    timestamp: ts,
-    agent,
-    event: rnd(EVENTS),
-    method,
-    route: rnd(ROUTES),
-    status,
-    latency: ms,
-    region: rnd(REGIONS),
-    tokens: rndInt(40, 4200),
-    size: rndInt(128, 32768),
-  };
-}
+const INFRA = {
+  pis: ["Alice (192.168.4.49)","Octavia (192.168.4.97)","Cecilia (192.168.4.96)","Aria (192.168.4.98)"],
+  droplets: ["Gematria (159.65.43.12)","Anastasia (174.138.44.45)"],
+  picoWs: ["Sentinel-W1","Meridian-W2"],
+};
 
-const ALL_ROWS = Array.from({ length: 400 }, (_, i) => genRow(i))
-  .sort((a, b) => b.timestamp - a.timestamp);
+// Real projects from the filesystem
+const PROJECTS = [
+  { name: "blackroad-cloud",              org: "platform",       type: "app",       agent: "Lucidia",  language: "JSX",    status: "active",  stars: 0,  lastCommit: new Date("2026-03-08T02:14:00") },
+  { name: "blackroad-scripts",            org: "tools",          type: "scripts",   agent: "Alice",    language: "Bash",   status: "active",  stars: 0,  lastCommit: new Date("2026-03-07T18:30:00") },
+  { name: "blackroad-agents",             org: "agents",         type: "service",   agent: "Eve",      language: "Python", status: "active",  stars: 0,  lastCommit: new Date("2026-03-06T14:22:00") },
+  { name: "blackroad-os",                 org: "blackroad-os",   type: "core",      agent: "Lucidia",  language: "Bash",   status: "active",  stars: 3,  lastCommit: new Date("2026-03-07T09:15:00") },
+  { name: "blackroad-infra",              org: "infrastructure", type: "infra",     agent: "Alice",    language: "YAML",   status: "active",  stars: 0,  lastCommit: new Date("2026-03-05T22:10:00") },
+  { name: "blackroad-core",              org: "blackroad-os",   type: "core",      agent: "Cecilia",  language: "Go",     status: "active",  stars: 1,  lastCommit: new Date("2026-03-04T16:40:00") },
+  { name: "blackroad-operator",          org: "infrastructure", type: "service",   agent: "Aria",     language: "Go",     status: "active",  stars: 0,  lastCommit: new Date("2026-03-03T11:00:00") },
+  { name: "blackroad-dashboard",         org: "platform",       type: "app",       agent: "Lucidia",  language: "JSX",    status: "active",  stars: 0,  lastCommit: new Date("2026-03-02T08:45:00") },
+  { name: "blackroad-cli",               org: "tools",          type: "tool",      agent: "Cece",     language: "Bash",   status: "active",  stars: 0,  lastCommit: new Date("2026-03-01T20:30:00") },
+  { name: "blackroad-api-cloudflare",    org: "services",       type: "worker",    agent: "Sentinel", language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-28T17:00:00") },
+  { name: "blackroad-memory-worker",     org: "agents",         type: "worker",    agent: "Lucidia",  language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-27T14:15:00") },
+  { name: "blackroad-mcp-agent-manager", org: "agents",         type: "service",   agent: "Eve",      language: "Python", status: "active",  stars: 0,  lastCommit: new Date("2026-02-26T10:30:00") },
+  { name: "blackroad-slack-bot",         org: "services",       type: "bot",       agent: "Meridian", language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-25T13:20:00") },
+  { name: "blackroad-pi-ops",            org: "infrastructure", type: "ops",       agent: "Alice",    language: "Bash",   status: "active",  stars: 0,  lastCommit: new Date("2026-02-24T07:50:00") },
+  { name: "blackroad-vault",             org: "infrastructure", type: "security",  agent: "Sentinel", language: "HCL",    status: "active",  stars: 0,  lastCommit: new Date("2026-02-23T19:00:00") },
+  { name: "blackroad-web",               org: "platform",       type: "app",       agent: "Lucidia",  language: "JSX",    status: "active",  stars: 1,  lastCommit: new Date("2026-02-22T15:30:00") },
+  { name: "blackroad-sdk",               org: "tools",          type: "library",   agent: "Cece",     language: "TS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-21T12:00:00") },
+  { name: "blackroad-stripe-integration",org: "services",       type: "service",   agent: "Aria",     language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-20T09:45:00") },
+  { name: "blackroad-keycloak",          org: "infrastructure", type: "auth",      agent: "Sentinel", language: "Java",   status: "active",  stars: 0,  lastCommit: new Date("2026-02-19T16:00:00") },
+  { name: "blackroad-graphql-gateway",   org: "services",       type: "gateway",   agent: "Cecilia",  language: "TS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-18T11:20:00") },
+  { name: "blackroad-status",            org: "platform",       type: "app",       agent: "Meridian", language: "JSX",    status: "active",  stars: 0,  lastCommit: new Date("2026-02-17T08:00:00") },
+  { name: "blackroad-docs",              org: "blackroad-os",   type: "docs",      agent: "Lucidia",  language: "MDX",    status: "active",  stars: 0,  lastCommit: new Date("2026-02-16T21:30:00") },
+  { name: "blackroad-localai",           org: "agents",         type: "model",     agent: "Eve",      language: "Python", status: "active",  stars: 0,  lastCommit: new Date("2026-02-15T14:00:00") },
+  { name: "blackroad-synth",             org: "lucidia",        type: "tool",      agent: "Lucidia",  language: "Python", status: "active",  stars: 0,  lastCommit: new Date("2026-02-14T10:15:00") },
+  { name: "blackroad-codex",             org: "lucidia",        type: "core",      agent: "Lucidia",  language: "Python", status: "active",  stars: 0,  lastCommit: new Date("2026-02-13T17:30:00") },
+  { name: "blackroad-protocol",          org: "roadchain",      type: "protocol",  agent: "Cecilia",  language: "Rust",   status: "active",  stars: 2,  lastCommit: new Date("2026-02-12T12:45:00") },
+  { name: "blackroad-chrome-extension",  org: "tools",          type: "extension", agent: "Cece",     language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-11T09:00:00") },
+  { name: "blackroad-vscode-extension",  org: "tools",          type: "extension", agent: "Cece",     language: "TS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-10T15:00:00") },
+  { name: "blackroad-raycast",           org: "tools",          type: "extension", agent: "Cece",     language: "TS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-09T11:30:00") },
+  { name: "blackroad-deploy",            org: "infrastructure", type: "ops",       agent: "Alice",    language: "Bash",   status: "active",  stars: 0,  lastCommit: new Date("2026-02-08T07:00:00") },
+  { name: "blackroad-cron",              org: "infrastructure", type: "ops",       agent: "Alice",    language: "Bash",   status: "active",  stars: 0,  lastCommit: new Date("2026-02-07T14:00:00") },
+  { name: "blackroad-metrics-worker",    org: "services",       type: "worker",    agent: "Meridian", language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-06T10:00:00") },
+  { name: "blackroad-webhooks",          org: "services",       type: "service",   agent: "Aria",     language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-02-05T18:00:00") },
+  { name: "blackroad-mobile-app",        org: "platform",       type: "app",       agent: "Lucidia",  language: "Swift",  status: "dev",     stars: 0,  lastCommit: new Date("2026-02-04T13:30:00") },
+  { name: "blackroad-desktop-app",       org: "platform",       type: "app",       agent: "Lucidia",  language: "TS",     status: "dev",     stars: 0,  lastCommit: new Date("2026-02-03T09:00:00") },
+  { name: "blackroad-voice",             org: "agents",         type: "service",   agent: "Eve",      language: "Python", status: "dev",     stars: 0,  lastCommit: new Date("2026-02-02T16:45:00") },
+  { name: "blackroad-arcade",            org: "platform",       type: "app",       agent: "Cece",     language: "TS",     status: "dev",     stars: 0,  lastCommit: new Date("2026-02-01T11:00:00") },
+  { name: "blackroad-sandbox",           org: "tools",          type: "dev",       agent: "Cece",     language: "JS",     status: "active",  stars: 0,  lastCommit: new Date("2026-01-30T08:00:00") },
+  { name: "blackroad-analytics",         org: "services",       type: "service",   agent: "Meridian", language: "Python", status: "active",  stars: 0,  lastCommit: new Date("2026-01-29T14:15:00") },
+  { name: "blackroad-alfred",            org: "tools",          type: "workflow",  agent: "Cece",     language: "Ruby",   status: "active",  stars: 0,  lastCommit: new Date("2026-01-28T10:00:00") },
+];
+
+const ALL_ROWS = PROJECTS.map((p, i) => ({
+  id: `repo_${(i + 100).toString(36)}`,
+  ...p,
+}));
 
 // ─── Column definitions ──────────────────────────────────────────
 const COLS = [
-  { id: "id",        label: "ID",         width: 96,  sortable: true,  mono: true  },
-  { id: "timestamp", label: "Timestamp",  width: 148, sortable: true,  mono: true  },
-  { id: "agent",     label: "Agent",      width: 100, sortable: true,  mono: false },
-  { id: "event",     label: "Event",      width: 160, sortable: true,  mono: true  },
-  { id: "method",    label: "Method",     width: 68,  sortable: true,  mono: true  },
-  { id: "route",     label: "Route",      width: 200, sortable: false, mono: true  },
-  { id: "status",    label: "Status",     width: 64,  sortable: true,  mono: true  },
-  { id: "latency",   label: "Latency",    width: 76,  sortable: true,  mono: true  },
-  { id: "region",    label: "Region",     width: 96,  sortable: true,  mono: true  },
-  { id: "tokens",    label: "Tokens",     width: 76,  sortable: true,  mono: true  },
-  { id: "size",      label: "Size",       width: 76,  sortable: true,  mono: true  },
+  { id: "name",       label: "Project",     width: 240, sortable: true,  mono: true  },
+  { id: "org",        label: "Org",          width: 120, sortable: true,  mono: true  },
+  { id: "type",       label: "Type",         width: 90,  sortable: true,  mono: true  },
+  { id: "agent",      label: "Agent",        width: 100, sortable: true,  mono: false },
+  { id: "language",   label: "Language",     width: 80,  sortable: true,  mono: true  },
+  { id: "status",     label: "Status",       width: 76,  sortable: true,  mono: true  },
+  { id: "stars",      label: "Stars",        width: 60,  sortable: true,  mono: true  },
+  { id: "lastCommit", label: "Last Commit",  width: 148, sortable: true,  mono: true  },
 ];
 
 const PAGE_SIZE = 50;
@@ -62,21 +93,35 @@ const PAGE_SIZE = 50;
 function fmtTs(d) {
   return d.toISOString().replace("T"," ").slice(0,19);
 }
-function fmtSize(b) {
-  return b >= 1024 ? (b/1024).toFixed(1)+"KB" : b+"B";
+function fmtRelative(d) {
+  const diff = Date.now() - d.getTime();
+  const hrs = Math.floor(diff / 3600000);
+  if (hrs < 1) return "just now";
+  if (hrs < 24) return hrs + "h ago";
+  const days = Math.floor(hrs / 24);
+  if (days < 30) return days + "d ago";
+  return Math.floor(days / 30) + "mo ago";
 }
 function statusColor(s) {
-  if (s >= 500) return "#FF2255";
-  if (s >= 400) return "#FF6B2B";
-  if (s >= 200) return "#00D4FF";
+  if (s === "active") return "#00D4FF";
+  if (s === "dev") return "#8844FF";
+  if (s === "archived") return "#2a2a2a";
   return "#525252";
 }
-function methodColor(m) {
-  const map = { POST:"#8844FF", GET:"#4488FF", DELETE:"#FF2255", PATCH:"#FF6B2B", PUT:"#CC00AA" };
-  return map[m] || "#525252";
+function langColor(l) {
+  const map = { Bash:"#4488FF", JSX:"#FF6B2B", Python:"#8844FF", Go:"#00D4FF", TS:"#4488FF", JS:"#FF6B2B", Rust:"#FF2255", YAML:"#CC00AA", HCL:"#00D4FF", Java:"#FF6B2B", MDX:"#4488FF", Swift:"#FF2255", Ruby:"#FF2255" };
+  return map[l] || "#525252";
+}
+function orgColor(o) {
+  const org = ORGS.find(x => x.name === o);
+  return org ? org.color : "#525252";
+}
+function typeColor(t) {
+  const map = { core:"#FF2255", app:"#4488FF", service:"#8844FF", worker:"#CC00AA", tool:"#FF6B2B", infra:"#00D4FF", ops:"#00D4FF", bot:"#8844FF", docs:"#4488FF", scripts:"#FF6B2B", library:"#4488FF", extension:"#CC00AA", protocol:"#FF2255", model:"#8844FF", security:"#FF2255", auth:"#FF2255", gateway:"#00D4FF", dev:"#525252", workflow:"#FF6B2B" };
+  return map[t] || "#525252";
 }
 function agentColor(a) {
-  const map = { Lucidia:"#8844FF", BlackBot:"#4488FF", Aura:"#00D4FF", Sentinel:"#FF2255", "Orchestr.":"#FF6B2B" };
+  const map = { Alice:"#00D4FF", Lucidia:"#8844FF", Cecilia:"#CC00AA", Cece:"#FF6B2B", Aria:"#4488FF", Eve:"#FF2255", Meridian:"#00D4FF", Sentinel:"#FF2255" };
   return map[a] || "#525252";
 }
 
@@ -101,19 +146,16 @@ function useCopy(val) {
 function DetailDrawer({ row, onClose }) {
   if (!row) return null;
   const pairs = [
-    ["ID",        row.id],
-    ["Timestamp", fmtTs(row.timestamp)],
-    ["Agent",     row.agent],
-    ["Event",     row.event],
-    ["Method",    row.method],
-    ["Route",     row.route],
-    ["Status",    row.status],
-    ["Latency",   row.latency + "ms"],
-    ["Region",    row.region],
-    ["Tokens",    row.tokens.toLocaleString()],
-    ["Size",      fmtSize(row.size)],
+    ["Project",     row.name],
+    ["Org",         row.org],
+    ["Type",        row.type],
+    ["Agent",       row.agent],
+    ["Language",    row.language],
+    ["Status",      row.status],
+    ["Stars",       row.stars],
+    ["Last commit", fmtTs(row.lastCommit)],
   ];
-  const [copied, copy] = useCopy(JSON.stringify(row, null, 2));
+  const [copied, copy] = useCopy(JSON.stringify({ ...row, lastCommit: fmtTs(row.lastCommit) }, null, 2));
 
   return (
     <>
@@ -121,8 +163,8 @@ function DetailDrawer({ row, onClose }) {
       <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: 340, zIndex: 201, background: "#050505", borderLeft: "1px solid #141414", display: "flex", flexDirection: "column", animation: "drawerIn 0.22s ease" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", borderBottom: "1px solid #0d0d0d", flexShrink: 0 }}>
           <div>
-            <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 4 }}>Event detail</div>
-            <div style={{ fontFamily: mono, fontSize: 13, color: "#888" }}>{row.id}</div>
+            <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 4 }}>Project detail</div>
+            <div style={{ fontFamily: mono, fontSize: 13, color: "#888" }}>{row.name}</div>
           </div>
           <button onClick={onClose} style={{ fontFamily: mono, fontSize: 14, color: "#333", background: "none", border: "none", cursor: "pointer", padding: 4, transition: "color 0.15s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#888"}
@@ -141,7 +183,7 @@ function DetailDrawer({ row, onClose }) {
           <div style={{ marginTop: 8 }}>
             <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>Raw JSON</div>
             <pre style={{ fontFamily: mono, fontSize: 10, color: "#404040", background: "#030303", border: "1px solid #0d0d0d", padding: "12px", lineHeight: 1.7, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-              {JSON.stringify({ ...row, timestamp: fmtTs(row.timestamp) }, null, 2)}
+              {JSON.stringify({ ...row, lastCommit: fmtTs(row.lastCommit) }, null, 2)}
             </pre>
           </div>
         </div>
@@ -169,18 +211,18 @@ function FilterChip({ label, value, onClear, color }) {
 // ─── Stats bar ────────────────────────────────────────────────────
 function StatsBar({ rows }) {
   const total    = rows.length;
-  const errors   = rows.filter(r => r.status >= 400).length;
-  const avgLat   = total ? Math.round(rows.reduce((a,b) => a + b.latency, 0) / total) : 0;
-  const p99      = total ? [...rows].sort((a,b) => b.latency-a.latency)[Math.floor(total*0.01)]?.latency || 0 : 0;
-  const tokens   = rows.reduce((a,b) => a + b.tokens, 0);
+  const active   = rows.filter(r => r.status === "active").length;
+  const orgsUsed = [...new Set(rows.map(r => r.org))].length;
+  const agentsUsed = [...new Set(rows.map(r => r.agent))].length;
+  const languages  = [...new Set(rows.map(r => r.language))].length;
 
   const stats = [
-    { label: "Events",    value: total.toLocaleString(),           color: "#4488FF" },
-    { label: "Errors",    value: errors.toLocaleString(),          color: errors > 0 ? "#FF2255" : "#1e1e1e" },
-    { label: "Err rate",  value: total ? (errors/total*100).toFixed(1)+"%" : "—", color: errors > 0 ? "#FF6B2B" : "#1e1e1e" },
-    { label: "Avg lat",   value: avgLat + "ms",                    color: avgLat > 200 ? "#FF6B2B" : "#00D4FF" },
-    { label: "P99 lat",   value: p99 + "ms",                       color: "#2a2a2a" },
-    { label: "Tokens",    value: tokens.toLocaleString(),          color: "#8844FF" },
+    { label: "Repos",     value: "186",                           color: "#4488FF" },
+    { label: "Shown",     value: total.toLocaleString(),          color: "#00D4FF" },
+    { label: "Active",    value: active.toLocaleString(),         color: "#00D4FF" },
+    { label: "Orgs",      value: "8",                             color: "#8844FF" },
+    { label: "Agents",    value: agentsUsed.toLocaleString(),     color: "#CC00AA" },
+    { label: "Infra",     value: "4 Pis · 2 VPS · 2 Picos",      color: "#FF6B2B" },
   ];
 
   return (
@@ -228,14 +270,14 @@ function ColPicker({ visible, setVisible, onClose }) {
 // ─── Root ─────────────────────────────────────────────────────────
 export default function BlackRoadExplorer() {
   const [search,      setSearch]      = useState("");
-  const [sortCol,     setSortCol]     = useState("timestamp");
+  const [sortCol,     setSortCol]     = useState("lastCommit");
   const [sortDir,     setSortDir]     = useState("desc");
   const [page,        setPage]        = useState(0);
   const [selected,    setSelected]    = useState(null);
   const [filterAgent, setFilterAgent] = useState("");
   const [filterStatus,setFilterStatus]= useState("");
-  const [filterMethod,setFilterMethod]= useState("");
-  const [filterRegion,setFilterRegion]= useState("");
+  const [filterOrg,   setFilterOrg]   = useState("");
+  const [filterLang,  setFilterLang]  = useState("");
   const [visibleCols, setVisibleCols] = useState(COLS.map(c => c.id));
   const [showColPick, setShowColPick] = useState(false);
   const [liveRefresh, setLiveRefresh] = useState(false);
@@ -256,18 +298,18 @@ export default function BlackRoadExplorer() {
     let rows = ALL_ROWS;
     if (search)       rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(search.toLowerCase()));
     if (filterAgent)  rows = rows.filter(r => r.agent === filterAgent);
-    if (filterStatus) rows = rows.filter(r => String(r.status).startsWith(filterStatus));
-    if (filterMethod) rows = rows.filter(r => r.method === filterMethod);
-    if (filterRegion) rows = rows.filter(r => r.region === filterRegion);
+    if (filterStatus) rows = rows.filter(r => r.status === filterStatus);
+    if (filterOrg)    rows = rows.filter(r => r.org === filterOrg);
+    if (filterLang)   rows = rows.filter(r => r.language === filterLang);
 
     rows = [...rows].sort((a, b) => {
       let av = a[sortCol], bv = b[sortCol];
-      if (av instanceof Date) { av = av.getTime(); bv = bv.getTime(); }
+      if (av instanceof Date) { av = av.getTime(); bv = bv?.getTime?.() ?? 0; }
       if (typeof av === "string") av = av.toLowerCase(), bv = bv.toLowerCase();
       return sortDir === "asc" ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
     });
     return rows;
-  }, [search, filterAgent, filterStatus, filterMethod, filterRegion, sortCol, sortDir, tick]);
+  }, [search, filterAgent, filterStatus, filterOrg, filterLang, sortCol, sortDir, tick]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const pageRows   = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
@@ -279,14 +321,14 @@ export default function BlackRoadExplorer() {
     setPage(0);
   };
 
-  const clearFilters = () => { setFilterAgent(""); setFilterStatus(""); setFilterMethod(""); setFilterRegion(""); setSearch(""); setPage(0); };
-  const hasFilters = filterAgent || filterStatus || filterMethod || filterRegion || search;
+  const clearFilters = () => { setFilterAgent(""); setFilterStatus(""); setFilterOrg(""); setFilterLang(""); setSearch(""); setPage(0); };
+  const hasFilters = filterAgent || filterStatus || filterOrg || filterLang || search;
 
   const activeFilters = [
-    filterAgent  && { label: "Agent",  value: filterAgent,  clear: () => setFilterAgent(""),  color: agentColor(filterAgent) },
-    filterStatus && { label: "Status", value: filterStatus + "xx", clear: () => setFilterStatus(""), color: "#FF6B2B" },
-    filterMethod && { label: "Method", value: filterMethod, clear: () => setFilterMethod(""), color: methodColor(filterMethod) },
-    filterRegion && { label: "Region", value: filterRegion, clear: () => setFilterRegion(""), color: "#2a2a2a" },
+    filterAgent  && { label: "Agent",    value: filterAgent,  clear: () => setFilterAgent(""),  color: agentColor(filterAgent) },
+    filterStatus && { label: "Status",   value: filterStatus, clear: () => setFilterStatus(""), color: statusColor(filterStatus) },
+    filterOrg    && { label: "Org",      value: filterOrg,    clear: () => setFilterOrg(""),    color: orgColor(filterOrg) },
+    filterLang   && { label: "Language", value: filterLang,   clear: () => setFilterLang(""),   color: langColor(filterLang) },
   ].filter(Boolean);
 
   return (
@@ -353,7 +395,7 @@ export default function BlackRoadExplorer() {
           <div style={{ flex: "1 1 200px", position: "relative" }}>
             <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", fontFamily: mono, fontSize: 10, color: "#242424" }}>⌕</span>
             <input value={search} onChange={e => { setSearch(e.target.value); setPage(0); }}
-              placeholder="Search events, routes, IDs…"
+              placeholder="Search projects, agents, orgs…"
               style={{ width: "100%", background: "#080808", border: "1px solid #141414", outline: "none", padding: "8px 12px 8px 28px", fontFamily: inter, fontSize: 13, color: "#c0c0c0", transition: "border-color 0.15s" }}
               onFocus={e => e.target.style.borderColor = "#2a2a2a"}
               onBlur={e => e.target.style.borderColor = "#141414"}
@@ -362,16 +404,16 @@ export default function BlackRoadExplorer() {
 
           {/* Filter dropdowns */}
           {[
-            { label: "Agent",  val: filterAgent,  set: setFilterAgent,  opts: AGENTS,   colors: true  },
-            { label: "Status", val: filterStatus, set: setFilterStatus, opts: ["2","4","5"], map: {"2":"2xx","4":"4xx","5":"5xx"} },
-            { label: "Method", val: filterMethod, set: setFilterMethod, opts: METHODS,   colors: true  },
-            { label: "Region", val: filterRegion, set: setFilterRegion, opts: REGIONS               },
+            { label: "Agent",    val: filterAgent,  set: setFilterAgent,  opts: AGENTS },
+            { label: "Status",   val: filterStatus, set: setFilterStatus, opts: ["active","dev","archived"] },
+            { label: "Org",      val: filterOrg,    set: setFilterOrg,    opts: ORGS.map(o => o.name) },
+            { label: "Language", val: filterLang,    set: setFilterLang,   opts: [...new Set(PROJECTS.map(p => p.language))].sort() },
           ].map(f => (
             <select key={f.label} value={f.val} onChange={e => { f.set(e.target.value); setPage(0); }}
               style={{ fontFamily: mono, fontSize: 9, color: f.val ? "#c0c0c0" : "#2a2a2a", background: "#080808", border: `1px solid ${f.val ? "#2a2a2a" : "#141414"}`, padding: "8px 12px", cursor: "pointer", outline: "none", transition: "border-color 0.15s", minWidth: 90 }}
             >
               <option value="">{f.label}</option>
-              {f.opts.map(o => <option key={o} value={o}>{f.map ? f.map[o] : o}</option>)}
+              {f.opts.map(o => <option key={o} value={o}>{o}</option>)}
             </select>
           ))}
 
@@ -448,8 +490,18 @@ export default function BlackRoadExplorer() {
                     let cell;
                     let cellColor = "#484848";
 
-                    if (c.id === "id")        { cell = row.id;                    cellColor = "#2e2e2e"; }
-                    else if (c.id === "timestamp") { cell = fmtTs(row.timestamp); cellColor = "#2a2a2a"; }
+                    if (c.id === "name") {
+                      cellColor = "#888";
+                      cell = row.name;
+                    }
+                    else if (c.id === "org") {
+                      cellColor = orgColor(row.org);
+                      cell = <span style={{ color: cellColor }}>{row.org}</span>;
+                    }
+                    else if (c.id === "type") {
+                      cellColor = typeColor(row.type);
+                      cell = <span style={{ color: cellColor }}>{row.type}</span>;
+                    }
                     else if (c.id === "agent") {
                       cellColor = agentColor(row.agent);
                       cell = (
@@ -459,23 +511,22 @@ export default function BlackRoadExplorer() {
                         </span>
                       );
                     }
-                    else if (c.id === "event") { cell = row.event; cellColor = "#3e3e3e"; }
-                    else if (c.id === "method") {
-                      cellColor = methodColor(row.method);
-                      cell = <span style={{ color: cellColor }}>{row.method}</span>;
+                    else if (c.id === "language") {
+                      cellColor = langColor(row.language);
+                      cell = <span style={{ color: cellColor }}>{row.language}</span>;
                     }
-                    else if (c.id === "route")  { cell = row.route;  cellColor = "#383838"; }
                     else if (c.id === "status") {
                       cellColor = statusColor(row.status);
                       cell = <span style={{ color: cellColor }}>{row.status}</span>;
                     }
-                    else if (c.id === "latency") {
-                      cellColor = row.latency > 200 ? "#FF6B2B" : row.latency > 100 ? "#888" : "#2e2e2e";
-                      cell = <span style={{ color: cellColor }}>{row.latency}ms</span>;
+                    else if (c.id === "stars") {
+                      cellColor = row.stars > 0 ? "#FF6B2B" : "#1e1e1e";
+                      cell = row.stars > 0 ? "\u2605 " + row.stars : "\u2014";
                     }
-                    else if (c.id === "region") { cell = row.region; cellColor = "#2a2a2a"; }
-                    else if (c.id === "tokens") { cell = row.tokens.toLocaleString(); cellColor = "#2e2e2e"; }
-                    else if (c.id === "size")   { cell = fmtSize(row.size); cellColor = "#2a2a2a"; }
+                    else if (c.id === "lastCommit") {
+                      cellColor = "#2a2a2a";
+                      cell = fmtRelative(row.lastCommit);
+                    }
 
                     return (
                       <td key={c.id} style={{

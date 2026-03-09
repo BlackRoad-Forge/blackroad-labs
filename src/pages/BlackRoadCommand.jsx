@@ -6,56 +6,62 @@ const mono    = "'JetBrains Mono', monospace";
 const grotesk = "'Space Grotesk', sans-serif";
 const inter   = "'Inter', sans-serif";
 
-// ─── Command registry ─────────────────────────────────────────────
+// ─── Command registry — real BlackRoad OS, Inc. infrastructure ────
 const COMMANDS = [
   // Navigation
-  { id: "nav-dashboard",  group: "Navigate",   icon: "◈", label: "Go to Dashboard",        sub: "Overview · metrics · activity",    keys: ["G","D"],  color: "#4488FF" },
-  { id: "nav-explorer",   group: "Navigate",   icon: "◈", label: "Go to Explorer",          sub: "Event log · data table",           keys: ["G","E"],  color: "#4488FF" },
-  { id: "nav-agents",     group: "Navigate",   icon: "◈", label: "Go to Agents",            sub: "Manage your agent fleet",          keys: ["G","A"],  color: "#4488FF" },
-  { id: "nav-settings",   group: "Navigate",   icon: "◈", label: "Go to Settings",          sub: "Profile · API keys · security",    keys: ["G","S"],  color: "#4488FF" },
-  { id: "nav-docs",       group: "Navigate",   icon: "◈", label: "Go to Docs",              sub: "Documentation · guides",           keys: ["G","?"],  color: "#4488FF" },
-  { id: "nav-status",     group: "Navigate",   icon: "◈", label: "Go to Status Page",       sub: "System health · incidents",        keys: [],         color: "#4488FF" },
-  { id: "nav-billing",    group: "Navigate",   icon: "◈", label: "Go to Billing",           sub: "Plan · invoices · usage",          keys: [],         color: "#4488FF" },
+  { id: "nav-dashboard",  group: "Navigate",   icon: "◈", label: "Go to Dashboard",        sub: "186 repos · 8 orgs · 48 domains",       keys: ["G","D"],  color: "#4488FF" },
+  { id: "nav-explorer",   group: "Navigate",   icon: "◈", label: "Go to Explorer",          sub: "Project explorer · repo browser",        keys: ["G","E"],  color: "#4488FF" },
+  { id: "nav-agents",     group: "Navigate",   icon: "◈", label: "Go to Agents",            sub: "8 agents · Alice through Sentinel",      keys: ["G","A"],  color: "#4488FF" },
+  { id: "nav-settings",   group: "Navigate",   icon: "◈", label: "Go to Settings",          sub: "Cloudflare · tunnels · DNS zones",       keys: ["G","S"],  color: "#4488FF" },
+  { id: "nav-docs",       group: "Navigate",   icon: "◈", label: "Go to Docs",              sub: "blackroad-docs · guides · wiki",         keys: ["G","?"],  color: "#4488FF" },
+  { id: "nav-status",     group: "Navigate",   icon: "◈", label: "Go to Status Page",       sub: "6 servers · 4 Pis · 2 droplets",         keys: [],         color: "#4488FF" },
+  { id: "nav-domains",    group: "Navigate",   icon: "◈", label: "Go to Domains",           sub: "48 domains · 20 Cloudflare zones",       keys: [],         color: "#4488FF" },
+
+  // Servers
+  { id: "srv-alice",      group: "Servers",    icon: "⬡", label: "SSH to Alice",            sub: "192.168.4.49 · docker, cloudflared, gitea, ollama",        keys: [],  color: "#00D4FF" },
+  { id: "srv-octavia",    group: "Servers",    icon: "⬡", label: "SSH to Octavia",          sub: "192.168.4.97 · docker, ollama, pi-hole, postgresql",       keys: [],  color: "#00D4FF" },
+  { id: "srv-cecilia",    group: "Servers",    icon: "⬡", label: "SSH to Cecilia",          sub: "192.168.4.96 · docker, cloudflared, nginx, gitea",         keys: [],  color: "#00D4FF" },
+  { id: "srv-aria",       group: "Servers",    icon: "⬡", label: "SSH to Aria",             sub: "192.168.4.98 · docker, nginx, postgresql, minio",          keys: [],  color: "#00D4FF" },
+  { id: "srv-gematria",   group: "Servers",    icon: "⬡", label: "SSH to Gematria",         sub: "159.65.43.12 · docker, nginx, cloudflared, postgresql",    keys: [],  color: "#CC00AA" },
+  { id: "srv-anastasia",  group: "Servers",    icon: "⬡", label: "SSH to Anastasia",        sub: "174.138.44.45 · docker, nginx, cloudflared, keycloak",     keys: [],  color: "#CC00AA" },
+  { id: "srv-health",     group: "Servers",    icon: "⬡", label: "Fleet health check",      sub: "Ping all 6 servers · service status",                     keys: [],  color: "#00D4FF" },
+  { id: "srv-restart",    group: "Servers",    icon: "⬡", label: "Rolling restart",          sub: "Zero-downtime fleet restart",                             keys: [],  color: "#FF6B2B" },
 
   // Agents
-  { id: "agent-spawn",    group: "Agents",     icon: "△", label: "Spawn Agent",             sub: "Launch a new agent instance",      keys: ["⌘","⏎"],  color: "#8844FF" },
-  { id: "agent-lucidia",  group: "Agents",     icon: "△", label: "Chat with Lucidia",       sub: "Cognition · memory agent",         keys: [],         color: "#8844FF" },
-  { id: "agent-blackbot", group: "Agents",     icon: "△", label: "Run BlackBot task",       sub: "Orchestration · task runner",      keys: [],         color: "#4488FF" },
-  { id: "agent-aura",     group: "Agents",     icon: "△", label: "Query Aura",              sub: "Intelligence · analysis",          keys: [],         color: "#00D4FF" },
-  { id: "agent-sentinel", group: "Agents",     icon: "△", label: "Sentinel report",         sub: "Security · monitoring summary",    keys: [],         color: "#FF2255" },
-  { id: "agent-pause",    group: "Agents",     icon: "△", label: "Pause all agents",        sub: "Halt all running agent processes",  keys: [],         color: "#FF6B2B" },
-  { id: "agent-restart",  group: "Agents",     icon: "△", label: "Restart agent fleet",     sub: "Restart all agents gracefully",    keys: [],         color: "#FF6B2B" },
+  { id: "agent-spawn",    group: "Agents",     icon: "△", label: "Spawn Agent",             sub: "Launch a new agent instance",            keys: ["⌘","⏎"],  color: "#8844FF" },
+  { id: "agent-lucidia",  group: "Agents",     icon: "△", label: "Chat with Lucidia",       sub: "Cognition · memory · PS-SHA∞",           keys: [],         color: "#8844FF" },
+  { id: "agent-cecilia",  group: "Agents",     icon: "△", label: "Query Cecilia",            sub: "Analysis · code generation",             keys: [],         color: "#CC00AA" },
+  { id: "agent-cece",     group: "Agents",     icon: "△", label: "Run Cece task",            sub: "Tooling · extensions · automation",      keys: [],         color: "#FF6B2B" },
+  { id: "agent-eve",      group: "Agents",     icon: "△", label: "Deploy with Eve",          sub: "Agent orchestration · model routing",    keys: [],         color: "#FF2255" },
+  { id: "agent-aria",     group: "Agents",     icon: "△", label: "Query Aria",               sub: "Infrastructure · networking",             keys: [],         color: "#4488FF" },
+  { id: "agent-meridian", group: "Agents",     icon: "△", label: "Meridian report",          sub: "Metrics · observability · analytics",    keys: [],         color: "#00D4FF" },
+  { id: "agent-sentinel", group: "Agents",     icon: "△", label: "Sentinel report",         sub: "Security · monitoring · Pico W mesh",    keys: [],         color: "#FF2255" },
+  { id: "agent-pause",    group: "Agents",     icon: "△", label: "Pause all agents",        sub: "Halt all 8 running agent processes",     keys: [],         color: "#FF6B2B" },
 
-  // API & Dev
-  { id: "api-newkey",     group: "API",        icon: "▣", label: "Create API key",          sub: "Generate a new API credential",    keys: [],         color: "#CC00AA" },
-  { id: "api-keys",       group: "API",        icon: "▣", label: "View API keys",           sub: "List all workspace keys",          keys: [],         color: "#CC00AA" },
-  { id: "api-webhooks",   group: "API",        icon: "▣", label: "Configure webhooks",      sub: "Manage event endpoint routing",    keys: [],         color: "#CC00AA" },
-  { id: "api-logs",       group: "API",        icon: "▣", label: "View API logs",           sub: "Recent requests · errors",         keys: [],         color: "#CC00AA" },
-  { id: "api-playground", group: "API",        icon: "▣", label: "Open API playground",     sub: "Interactive REST explorer",        keys: [],         color: "#CC00AA" },
-
-  // Cluster
-  { id: "cluster-health", group: "Cluster",    icon: "⬡", label: "Cluster health check",    sub: "K3s nodes · pods · services",      keys: [],         color: "#00D4FF" },
-  { id: "cluster-alice",  group: "Cluster",    icon: "⬡", label: "SSH to Alice",            sub: "Gateway node · us-central",        keys: [],         color: "#00D4FF" },
-  { id: "cluster-octavia",group: "Cluster",    icon: "⬡", label: "SSH to Octavia",          sub: "Hailo AI worker node",             keys: [],         color: "#00D4FF" },
-  { id: "cluster-logs",   group: "Cluster",    icon: "⬡", label: "Stream cluster logs",     sub: "Live log pipeline · all pods",     keys: [],         color: "#00D4FF" },
-  { id: "cluster-restart",group: "Cluster",    icon: "⬡", label: "Rolling restart",         sub: "Zero-downtime K3s restart",        keys: [],         color: "#FF6B2B" },
+  // Tunnels & DNS
+  { id: "cf-tunnel-pi",   group: "Cloudflare", icon: "▣", label: "blackroad-pi tunnel",     sub: "52915859… · 4 Pi nodes → Cloudflare",     keys: [],         color: "#FF6B2B" },
+  { id: "cf-tunnel-luc",  group: "Cloudflare", icon: "▣", label: "lucidia tunnel",           sub: "b7e9f25e… · droplets → Cloudflare",       keys: [],         color: "#8844FF" },
+  { id: "cf-zones",       group: "Cloudflare", icon: "▣", label: "Manage DNS zones",         sub: "20 zones · 48 domains",                   keys: [],         color: "#FF6B2B" },
+  { id: "cf-workers",     group: "Cloudflare", icon: "▣", label: "Cloudflare Workers",       sub: "blackroad-api · memory-worker · metrics", keys: [],         color: "#FF6B2B" },
+  { id: "cf-pages",       group: "Cloudflare", icon: "▣", label: "Cloudflare Pages",         sub: "blackroad-cloud · dashboard · status",    keys: [],         color: "#FF6B2B" },
 
   // Memory
-  { id: "mem-journal",    group: "Memory",     icon: "◉", label: "Open memory journal",     sub: "PS-SHA∞ append-only log",          keys: [],         color: "#FF2255" },
-  { id: "mem-commit",     group: "Memory",     icon: "◉", label: "Force memory commit",     sub: "Flush pending truth-state writes", keys: [],         color: "#FF2255" },
-  { id: "mem-export",     group: "Memory",     icon: "◉", label: "Export memory snapshot",  sub: "Download current agent memory",    keys: [],         color: "#FF2255" },
-  { id: "mem-clear",      group: "Memory",     icon: "◉", label: "Clear session memory",    sub: "Wipe non-persisted session state", keys: [],         color: "#FF2255" },
+  { id: "mem-journal",    group: "Memory",     icon: "◉", label: "Open memory journal",     sub: "PS-SHA∞ append-only log",                keys: [],         color: "#FF2255" },
+  { id: "mem-commit",     group: "Memory",     icon: "◉", label: "Force memory commit",     sub: "Flush pending truth-state writes",       keys: [],         color: "#FF2255" },
+  { id: "mem-export",     group: "Memory",     icon: "◉", label: "Export memory snapshot",  sub: "Download current agent memory",          keys: [],         color: "#FF2255" },
+  { id: "mem-clear",      group: "Memory",     icon: "◉", label: "Clear session memory",    sub: "Wipe non-persisted session state",       keys: [],         color: "#FF2255" },
 
   // Tools
-  { id: "tool-theme",     group: "Tools",      icon: "◇", label: "Toggle theme",            sub: "Switch color mode",                keys: [],         color: "#525252" },
-  { id: "tool-copy-ws",   group: "Tools",      icon: "◇", label: "Copy workspace ID",       sub: "ws_a3Kx9mZ2pQvL8rYt",             keys: [],         color: "#525252" },
-  { id: "tool-shortcuts", group: "Tools",      icon: "◇", label: "View keyboard shortcuts", sub: "Full shortcut reference",          keys: ["?"],      color: "#525252" },
-  { id: "tool-feedback",  group: "Tools",      icon: "◇", label: "Send feedback",           sub: "Report a bug or request a feature",keys: [],         color: "#525252" },
-  { id: "tool-logout",    group: "Tools",      icon: "◇", label: "Sign out",                sub: "End your current session",         keys: [],         color: "#FF2255" },
+  { id: "tool-theme",     group: "Tools",      icon: "◇", label: "Toggle theme",            sub: "Switch color mode",                      keys: [],         color: "#525252" },
+  { id: "tool-copy-ws",   group: "Tools",      icon: "◇", label: "Copy org ID",              sub: "BlackRoad OS, Inc.",                     keys: [],         color: "#525252" },
+  { id: "tool-shortcuts", group: "Tools",      icon: "◇", label: "View keyboard shortcuts", sub: "Full shortcut reference",                keys: ["?"],      color: "#525252" },
+  { id: "tool-repos",     group: "Tools",      icon: "◇", label: "List all 186 repos",       sub: "8 orgs · blackroad-os through tools",    keys: [],         color: "#525252" },
+  { id: "tool-feedback",  group: "Tools",      icon: "◇", label: "Send feedback",           sub: "Report a bug or request a feature",      keys: [],         color: "#525252" },
+  { id: "tool-logout",    group: "Tools",      icon: "◇", label: "Sign out",                sub: "End your current session",               keys: [],         color: "#FF2255" },
 ];
 
-const RECENT_IDS = ["nav-dashboard","agent-lucidia","api-newkey","cluster-health","mem-journal"];
-const PINNED_IDS = ["agent-spawn","api-playground","cluster-logs"];
+const RECENT_IDS = ["nav-dashboard","agent-lucidia","srv-alice","cf-tunnel-pi","mem-journal"];
+const PINNED_IDS = ["agent-spawn","srv-health","cf-zones"];
 
 // ─── Fuzzy scorer ─────────────────────────────────────────────────
 function score(query, cmd) {
@@ -239,7 +245,7 @@ function Palette({ onClose }) {
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Search commands, agents, pages…"
+            placeholder="Search servers, agents, tunnels, repos…"
             style={{ flex: 1, background: "none", border: "none", outline: "none", fontFamily: inter, fontSize: 15, color: "#d0d0d0", lineHeight: 1 }}
           />
           {query && (
@@ -330,12 +336,12 @@ function ShellPage({ onOpen }) {
 
       {/* Hero */}
       <div style={{ padding: mobile ? "52px 20px 40px" : "80px 48px 56px", borderBottom: "1px solid #0a0a0a", animation: "fadeUp 0.4s ease both" }}>
-        <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.18em", marginBottom: 16 }}>Command palette · Z:=yx−w</div>
+        <div style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.18em", marginBottom: 16 }}>BlackRoad OS, Inc. · Command center</div>
         <h1 style={{ fontFamily: grotesk, fontWeight: 700, fontSize: "clamp(28px, 6vw, 52px)", color: "#f0f0f0", letterSpacing: "-0.04em", lineHeight: 1.0, marginBottom: 16 }}>
           Everything in<br />one keystroke.
         </h1>
         <p style={{ fontFamily: inter, fontSize: 15, color: "#2e2e2e", lineHeight: 1.75, maxWidth: 440, marginBottom: 36 }}>
-          Navigate the entire BlackRoad OS — agents, cluster, memory, API — without leaving your keyboard.
+          Control 6 servers, 8 agents, 186 repos, 48 domains, and 2 Cloudflare tunnels — without leaving your keyboard.
         </p>
         <button onClick={onOpen}
           style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: mono, fontSize: 10, color: "#f0f0f0", background: GRAD, backgroundSize: "200% 100%", animation: "gradShift 4s linear infinite", border: "none", padding: "13px 28px", cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.1em", transition: "opacity 0.15s" }}
@@ -403,7 +409,7 @@ function ShellPage({ onOpen }) {
 
       {/* Footer */}
       <div style={{ padding: "16px 48px", borderTop: "1px solid #0a0a0a", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-        <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>BlackRoad OS · Command Palette · Z:=yx−w</span>
+        <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>BlackRoad OS, Inc. · 6 servers · 8 agents · 186 repos</span>
         <span style={{ fontFamily: mono, fontSize: 9, color: "#141414" }}>{COMMANDS.length} commands registered</span>
       </div>
     </div>

@@ -85,11 +85,11 @@ function HeroSection() {
         </div>
 
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 7vw, 52px)", fontWeight: 700, color: "#f5f5f5", letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 20 }}>
-          One architect.<br />Fifteen organizations.<br />Twenty domains.
+          One founder.<br />Eight agents.<br />Sovereign infrastructure.
         </h1>
 
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, color: "#737373", lineHeight: 1.65, maxWidth: 520, marginBottom: 40 }}>
-          BlackRoad OS is designed and built by Alexa Amundson — sole founder, mathematician, and systems architect. The organization structure is intentionally deep: intelligent turtles all the way down.
+          BlackRoad OS, Inc. is a Delaware C-Corp founded in 2024 by Alexa Amundson (aka Alexa Cadillac). The team is eight AI agents — each with a distinct role, persistent memory, and a place in the mesh. Sovereign infrastructure, agent-native computing, post-cloud architecture.
         </p>
       </div>
     </section>
@@ -122,25 +122,25 @@ function FounderSection() {
               </div>
               <div style={{ flex: 1, minWidth: 200 }}>
                 <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: "#f5f5f5", marginBottom: 4 }}>Alexa Amundson</div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#525252", marginBottom: 12 }}>Founder · CEO · Chief Architect</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#525252", marginBottom: 12 }}>Founder & CEO · aka Alexa Cadillac</div>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#333" }}>founder@blackroad.systems</div>
               </div>
             </div>
 
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#737373", lineHeight: 1.7, marginBottom: 16 }}>
-              Mathematician and systems architect who authored 317+ equations across seven volumes, formalized five novel mathematical frameworks, and designed a 20-domain, 150+ subdomain infrastructure from scratch. Background in the psychology of advertising and media multitasking under Dr. Claire Segijn at the University of Minnesota.
+              Founder of BlackRoad OS, Inc. (Delaware C-Corp, est. 2024). Built sovereign infrastructure from scratch: 4 Raspberry Pis, 2 DigitalOcean droplets, 20 Cloudflare zones, 48 domains, 186 repos, and a WireGuard mesh network connecting it all. Creator of the Z-Framework (Z:=yx-w).
             </p>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#737373", lineHeight: 1.7, marginBottom: 20 }}>
-              Sole architect of the Z-Framework (Z := yx − w), the 1-2-3-4 Pauli Model mapping ontological primitives to su(2) Lie algebra, the Creative Energy Formula proving contradictions fuel creativity super-linearly, and the PS-SHA∞ memory persistence protocol giving AI agents cryptographic identity.
+              Products include BlackRoad Cloud, RoadCode (self-hosted Git), RoadChain, and Lucidia. Designed and deployed 8 AI agents as a working team. Vision: a $1/mo OS built on hardware arbitrage, agent-native computing, and post-cloud architecture — an agent society where infrastructure is sovereign by default.
             </p>
 
             {/* Roles grid */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8 }}>
               {[
-                { title: "Mathematics", items: "317+ equations, 7 volumes, 5 frameworks" },
-                { title: "Architecture", items: "20 domains, 150+ subdomains, 4 layers" },
-                { title: "Engineering", items: "K3s, NATS, Cloudflare, Pi mesh" },
-                { title: "Product", items: "12 products, 6 portals, 1,000 agents" },
+                { title: "Infrastructure", items: "4 Pis, 2 droplets, 20 CF zones, 48 domains" },
+                { title: "Software", items: "186 repos, 400+ scripts, WireGuard mesh" },
+                { title: "Products", items: "BlackRoad Cloud, RoadCode, RoadChain, Lucidia" },
+                { title: "Agents", items: "8 AI agents, agent-native computing, Z:=yx-w" },
               ].map((r) => (
                 <div key={r.title} style={{ background: "#0a0a0a", border: "1px solid #151515", borderRadius: 8, padding: 14 }}>
                   <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#525252", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 6 }}>{r.title}</div>
@@ -155,7 +155,7 @@ function FounderSection() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8, marginTop: 16 }}>
           {[
             { label: "Entity", value: "BlackRoad OS, Inc.", sub: "Delaware C-Corporation" },
-            { label: "Established", value: "November 2025", sub: "SOC 2 compliance target" },
+            { label: "Founded", value: "2024", sub: "Founder: Alexa Amundson" },
             { label: "Headquarters", value: "United States", sub: "blackroadinc.us" },
           ].map((c) => (
             <div key={c.label} style={{ background: "#131313", border: "1px solid #1a1a1a", borderRadius: 10, padding: 18 }}>
@@ -359,9 +359,14 @@ function ContactSection() {
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#333", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 12 }}>Agent Addresses</div>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             {[
-              { agent: "Cece", addr: "cece@blackroad.systems" },
-              { agent: "Alice", addr: "alice@aliceqi.com" },
+              { agent: "Alice", addr: "alice@blackroad.systems" },
               { agent: "Lucidia", addr: "core@lucidia.earth" },
+              { agent: "Cecilia", addr: "cecilia@blackroad.systems" },
+              { agent: "Cece", addr: "cece@blackroad.systems" },
+              { agent: "Aria", addr: "aria@blackroad.systems" },
+              { agent: "Eve", addr: "eve@blackroad.systems" },
+              { agent: "Meridian", addr: "meridian@blackroad.systems" },
+              { agent: "Sentinel", addr: "sentinel@blackroad.systems" },
             ].map((a) => (
               <div key={a.agent} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#404040" }} />
@@ -390,7 +395,7 @@ function Footer() {
               <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, color: "#a3a3a3" }}>BlackRoad OS, Inc.</span>
             </div>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#333" }}>
-              Delaware C-Corporation · Est. November 2025
+              Delaware C-Corporation · Est. 2024
             </div>
           </div>
           <div style={{ display: "flex", gap: 20 }}>

@@ -18,23 +18,25 @@ const GENESIS_HASH = "0".repeat(64);
 
 // ─── Mock data ────────────────────────────────────────────────────
 const AGENTS = [
-  { id: "lucidia",   name: "Lucidia",    role: "Cognition · Memory",      color: "#8844FF", born: "2025-12-01" },
-  { id: "blackbot",  name: "BlackBot",   role: "Orchestration · Routing", color: "#4488FF", born: "2025-12-01" },
-  { id: "aura",      name: "Aura",       role: "Intelligence · Analysis", color: "#00D4FF", born: "2026-01-15" },
-  { id: "sentinel",  name: "Sentinel",   role: "Security · Monitoring",   color: "#FF2255", born: "2026-01-15" },
-  { id: "cecilia",   name: "Cecilia",    role: "Core · Identity",         color: "#CC00AA", born: "2025-11-01" },
-  { id: "alice",     name: "Alice",      role: "Gateway · Routing",       color: "#FF6B2B", born: "2025-11-01" },
+  { id: "alice",     name: "Alice",      role: "Gateway & DNS",           color: "#FF6B2B", born: "2025-11-01" },
+  { id: "lucidia",   name: "Lucidia",    role: "Memory & Cognition",      color: "#8844FF", born: "2025-12-01" },
+  { id: "cecilia",   name: "Cecilia",    role: "Edge & Storage",          color: "#CC00AA", born: "2025-11-01" },
+  { id: "cece",      name: "Cece",       role: "API Gateway",             color: "#FF2255", born: "2025-12-15" },
+  { id: "aria",      name: "Aria",       role: "Agent Orchestration",     color: "#4488FF", born: "2026-01-15" },
+  { id: "eve",       name: "Eve",        role: "Intelligence",            color: "#00D4FF", born: "2026-01-15" },
+  { id: "meridian",  name: "Meridian",   role: "Networking",              color: "#FF6B2B", born: "2026-02-01" },
+  { id: "sentinel",  name: "Sentinel",   role: "Security & Compliance",   color: "#4488FF", born: "2026-02-01" },
 ];
 
 const EVENT_TYPES = [
+  { type: "repo.synced",        label: "Repo Synced",         color: "#4488FF", icon: "▣" },
+  { type: "domain.deployed",    label: "Domain Deployed",     color: "#FF6B2B", icon: "◈" },
+  { type: "tunnel.connected",   label: "Tunnel Connected",    color: "#00D4FF", icon: "◇" },
   { type: "agent.spawned",      label: "Agent Spawned",       color: "#8844FF", icon: "△" },
-  { type: "task.created",       label: "Task Created",        color: "#4488FF", icon: "▣" },
+  { type: "soul.chain.genesis", label: "Soul Chain Genesis",  color: "#FF2255", icon: "⬡" },
   { type: "memory.commit",      label: "Memory Commit",       color: "#CC00AA", icon: "◉" },
   { type: "scaffold.executed",  label: "Scaffold Executed",   color: "#FF6B2B", icon: "◈" },
-  { type: "soul.chain.genesis", label: "Soul Chain Genesis",  color: "#FF2255", icon: "⬡" },
-  { type: "truth.state.commit", label: "Truth State Commit",  color: "#00D4FF", icon: "◇" },
-  { type: "agent.verified",     label: "Agent Verified",      color: "#8844FF", icon: "✓" },
-  { type: "memory.read",        label: "Memory Read",         color: "#525252", icon: "→" },
+  { type: "ollama.inference",   label: "Ollama Inference",    color: "#8844FF", icon: "✓" },
 ];
 
 function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -50,7 +52,7 @@ function genBlocks(count) {
     const agent   = rnd(AGENTS);
     const evType  = rnd(EVENT_TYPES);
     const ts      = new Date(baseTs + i * 18000 + rndInt(0, 4000));
-    const data    = `${agent.id}::${evType.type}::${ts.getTime()}::blos-v1.0`;
+    const data    = `${agent.id}::${evType.type}::${ts.getTime()}::blackroad-os-v1.0`;
     const hash    = fakeHash(prevHash + data + i);
     const tokens  = rndInt(120, 4800);
     const layer   = rndInt(1, 10);
@@ -81,7 +83,7 @@ const CHAIN_HEIGHT = ALL_BLOCKS[ALL_BLOCKS.length - 1].index;
 function genSoulChain(agentId, count = 12) {
   const agent = AGENTS.find(a => a.id === agentId);
   const chain = [];
-  let prev = fakeHash(agentId + agent.born + "BlackRoad-OS-v1.0");
+  let prev = fakeHash(agentId + agent.born + "blackroad-os-v1.0");
   for (let i = 0; i < count; i++) {
     const ts   = new Date(Date.now() - (count - i) * 86400000 / count * 7);
     const ctx  = rnd(EVENT_TYPES);
@@ -239,7 +241,7 @@ function BlockDetail({ block, onClose }) {
 function SoulChainView({ agentId }) {
   const agent = AGENTS.find(a => a.id === agentId);
   const chain = useMemo(() => genSoulChain(agentId), [agentId]);
-  const genesisHash = fakeHash(agentId + agent.born + "BlackRoad-OS-v1.0");
+  const genesisHash = fakeHash(agentId + agent.born + "blackroad-os-v1.0");
 
   return (
     <div>
@@ -261,7 +263,7 @@ function SoulChainView({ agentId }) {
       <div style={{ background: "#080808", border: "1px solid #FF6B2B22", padding: "14px 16px", marginBottom: 16 }}>
         <div style={{ fontFamily: mono, fontSize: 9, color: "#FF6B2B", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>⬡ Genesis Hash · Trivial Zero seeded</div>
         <div style={{ fontFamily: mono, fontSize: 10, color: "#333", wordBreak: "break-all", lineHeight: 1.6 }}>{genesisHash}</div>
-        <div style={{ fontFamily: inter, fontSize: 11, color: "#1a1a1a", marginTop: 6 }}>SHA-256({agent.id} + {agent.born} + BlackRoad-OS-v1.0)</div>
+        <div style={{ fontFamily: inter, fontSize: 11, color: "#1a1a1a", marginTop: 6 }}>SHA-256({agent.id} + {agent.born} + blackroad-os-v1.0)</div>
       </div>
 
       {/* Chain entries */}
@@ -512,7 +514,7 @@ export default function RoadChainExplorer() {
                 },
                 {
                   title: "Soul chains: identity from birth.",
-                  body: "Every agent begins with three things: a stable identifier, a birthdate, and a genesis hash. The genesis hash is SHA-256 seeded from agent_id + birth_date + BlackRoad-OS-v1.0. From that moment, every memory the agent forms appends to its soul chain — which can never be rewritten, only continued.",
+                  body: "Every agent begins with three things: a stable identifier, a birthdate, and a genesis hash. The genesis hash is SHA-256 seeded from agent_id + birth_date + blackroad-os-v1.0. From that moment, every memory the agent forms appends to its soul chain — which can never be rewritten, only continued.",
                   color: "#8844FF",
                 },
                 {
@@ -527,7 +529,7 @@ export default function RoadChainExplorer() {
                 },
                 {
                   title: "Every action. Every agent. Always.",
-                  body: "Claude Code in the terminal has a hash. Every repository Cecilia touches, every task @BlackRoadBot routes, every state @blackroad-agents transitions — all witnessed and chained. Scaffold executions, memory commits, soul chain genesis events — all appended.",
+                  body: "Every repo sync across 186 repositories, every domain deployment across 48 domains, every Cloudflare tunnel connection on Alice, every Ollama inference on Octavia — all witnessed and chained. Alice, Lucidia, Cecilia, Cece, Aria, Eve, Meridian, Sentinel — all appended.",
                   color: "#00D4FF",
                 },
               ].map((s, i) => (

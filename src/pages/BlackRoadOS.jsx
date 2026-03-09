@@ -91,12 +91,12 @@ function LucidiaApp() {
   const replies = [
     "Z := yx − w. The system is in equilibrium.",
     "Memory committed. Truth state updated across the journal.",
-    "Agent fleet nominal — 5 of 6 running. Aura is idle.",
+    "Agent fleet: 7 of 8 online. Aria degraded — container memory limit on Pi 4.",
     "K(t) = C(t)·e^(λ|δt|). Contradiction detected — elevating creativity.",
     "PS-SHA-∞ journal: 2,847 entries. No corruption detected.",
     "RoadChain height: 0x4F2A. All state transitions witnessed.",
-    "Structure × Change × Scale. The primitives are stable.",
-    "Soul chain identity is immutable. Genesis hash verified.",
+    "186 repos across 8 orgs. 48 domains, 20 zones, 6 tunnels — all nominal.",
+    "Infra: 4 Pis, 2 Droplets, 2 Pico Ws. WireGuard mesh healthy via Anastasia hub.",
   ];
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
   const send = () => {
@@ -135,7 +135,7 @@ function ChainApp() {
   const blocks = Array.from({ length: 10 }, (_, i) => ({
     idx: 0x4F2A - i,
     hash: Math.random().toString(16).slice(2).repeat(4).slice(0, 12),
-    agent: ["Lucidia","BlackBot","Alice","Sentinel","Aura","Cecilia"][i % 6],
+    agent: ["Lucidia","Alice","Cecilia","Cece","Aria","Eve","Meridian","Sentinel"][i % 8],
     color: STOPS[i % STOPS.length],
     event: ["memory.commit","task.created","agent.spawned","truth.state","scaffold.exec","chain.witness"][i % 6],
     ms: Math.floor(Math.random() * 40 + 8),
@@ -166,29 +166,31 @@ function ChainApp() {
 
 function AgentsApp() {
   const agents = [
-    { name: "Lucidia",  role: "cognition · memory",      color: "#8844FF", status: "running" },
-    { name: "BlackBot", role: "orchestration · routing",  color: "#4488FF", status: "running" },
-    { name: "Aura",     role: "intelligence · analysis",  color: "#00D4FF", status: "idle"    },
-    { name: "Sentinel", role: "security · monitoring",    color: "#FF2255", status: "running" },
-    { name: "Cecilia",  role: "core · identity",          color: "#CC00AA", status: "running" },
-    { name: "Alice",    role: "gateway · K3s routing",    color: "#FF6B2B", status: "running" },
+    { name: "Alice",    role: "gateway · dns",             color: "#FF6B2B", status: "running" },
+    { name: "Lucidia",  role: "memory · cognition",        color: "#8844FF", status: "running" },
+    { name: "Cecilia",  role: "edge · storage",            color: "#CC00AA", status: "running" },
+    { name: "Cece",     role: "api gateway",               color: "#FF2255", status: "running" },
+    { name: "Aria",     role: "agent orchestration",       color: "#4488FF", status: "degraded" },
+    { name: "Eve",      role: "intelligence",              color: "#00D4FF", status: "running" },
+    { name: "Meridian", role: "networking",                color: "#FF6B2B", status: "running" },
+    { name: "Sentinel", role: "security · compliance",     color: "#4488FF", status: "running" },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
         <span style={{ fontFamily: mono, fontSize: 9, color: "#2a2a2a", textTransform: "uppercase", letterSpacing: "0.1em" }}>Agent fleet</span>
-        <span style={{ fontFamily: mono, fontSize: 9, color: "#00D4FF" }}>5/6 running</span>
+        <span style={{ fontFamily: mono, fontSize: 9, color: "#00D4FF" }}>7/8 running</span>
       </div>
       {agents.map((a, i) => (
         <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.03)", borderRadius: 8 }}>
           <div style={{ width: 32, height: 32, borderRadius: 8, background: a.color + "18", border: `1px solid ${a.color}33`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: a.status === "running" ? a.color : "#222", animation: a.status === "running" ? "pulse 2s ease-in-out infinite" : "none" }} />
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: a.status === "running" ? a.color : a.status === "degraded" ? "#FF6B2B" : "#222", animation: a.status === "running" ? "pulse 2s ease-in-out infinite" : "none" }} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 13, color: "#c0c0c0", marginBottom: 1 }}>{a.name}</div>
             <div style={{ fontFamily: mono, fontSize: 10, color: "#2a2a2a" }}>{a.role}</div>
           </div>
-          <div style={{ fontFamily: mono, fontSize: 9, color: a.status === "running" ? "#00D4FF" : "#333", background: a.status === "running" ? "#00D4FF11" : "#11111166", padding: "2px 7px", borderRadius: 4 }}>{a.status}</div>
+          <div style={{ fontFamily: mono, fontSize: 9, color: a.status === "running" ? "#00D4FF" : a.status === "degraded" ? "#FF6B2B" : "#333", background: a.status === "running" ? "#00D4FF11" : a.status === "degraded" ? "#FF6B2B11" : "#11111166", padding: "2px 7px", borderRadius: 4 }}>{a.status}</div>
         </div>
       ))}
     </div>
@@ -197,19 +199,21 @@ function AgentsApp() {
 
 function TerminalApp() {
   const [lines, setLines] = useState([
-    { c: "#2a2a2a", t: "BlackRoad CLI v3 · Layers 3–8 loaded" },
+    { c: "#2a2a2a", t: "BlackRoad CLI v3 · 8 agents · 6 servers · 186 repos" },
     { c: "#525252", t: "blackroad@alexandria ~ $" },
   ]);
   const [inp, setInp] = useState("");
   const endRef = useRef(null);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [lines]);
   const cmds = {
-    help:        [{ c:"#FF6B2B", t:"br-check  br-status  br-deploy  br-logs  agents  chain  whoami  clear" }],
-    whoami:      [{ c:"#8844FF", t:"blackroad@alexandria" }, { c:"#333", t:"BlackRoad CLI v3 · session active" }],
-    "br-status": [{ c:"#4488FF", t:"HTTP 200 OK · blackroad.io · 14ms" }, { c:"#00D4FF", t:"✓ Cloudflare edge healthy" }],
-    "br-check":  [{ c:"#484848", t:"x-robots-tag: noindex, noai, noimageai" }, { c:"#00D4FF", t:"✓ AI crawl protection active" }],
-    agents:      [{ c:"#8844FF", t:"5/6 agents running · Aura idle" }],
+    help:        [{ c:"#FF6B2B", t:"br-check  br-status  agents  chain  infra  wireguard  whoami  clear" }],
+    whoami:      [{ c:"#8844FF", t:"blackroad@alexandria · Alexa Amundson" }, { c:"#333", t:"BlackRoad OS, Inc. · Est. 2024 · 186 repos · 48 domains" }],
+    "br-status": [{ c:"#4488FF", t:"HTTP 200 OK · blackroad.io · 6ms" }, { c:"#00D4FF", t:"✓ 6 tunnels · 20 zones · 48 domains · all healthy" }],
+    "br-check":  [{ c:"#484848", t:"x-robots-tag: noindex, noai, noimageai" }, { c:"#00D4FF", t:"✓ AI crawl protection active · 8 agents · 6 servers" }],
+    agents:      [{ c:"#8844FF", t:"7/8 agents running · Aria degraded" }, { c:"#333", t:"Alice, Lucidia, Cecilia, Cece, Eve, Meridian, Sentinel: online" }],
     chain:       [{ c:"#FF2255", t:"HEIGHT: 0x4F2A · 812 events witnessed" }],
+    infra:       [{ c:"#4488FF", t:"4 Pis: Alice(.49) Octavia(.97) Cecilia(.96) Aria(.98)" }, { c:"#4488FF", t:"2 Droplets: Gematria(NYC3) Anastasia(NYC1)" }, { c:"#4488FF", t:"2 Pico Ws: .95, .99" }, { c:"#00D4FF", t:"6 tunnels · 48 domains · 20 zones" }],
+    wireguard:   [{ c:"#CC00AA", t:"Hub: anastasia (174.138.44.45)" }, { c:"#333", t:"alice 10.8.0.6 · cecilia 10.8.0.3 · octavia 10.8.0.4 · aria 10.8.0.7" }],
     pwd:         [{ c:"#686868", t:"/Users/alexa" }],
   };
   const run = () => {
@@ -364,7 +368,7 @@ function SettingsApp() {
         </div>
       ))}
       <div style={{ marginTop: 6, padding: "8px 10px", background: "rgba(255,255,255,0.01)", borderRadius: 8 }}>
-        <div style={{ fontFamily: mono, fontSize: 9, color: "#1e1e1e" }}>BlackRoad OS · v1.0 · Z:=yx−w</div>
+        <div style={{ fontFamily: mono, fontSize: 9, color: "#1e1e1e" }}>BlackRoad OS, Inc. · Est. 2024 · Alexa Amundson · Z:=yx-w</div>
       </div>
     </div>
   );

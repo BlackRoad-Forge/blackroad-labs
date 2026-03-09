@@ -22,8 +22,8 @@ const GRAYS = [
 
 const TYPE_SAMPLES = [
   { label: "Display",  font: "'Space Grotesk', sans-serif", weight: 700, size: 40, text: "BlackRoad OS" },
-  { label: "Heading",  font: "'Space Grotesk', sans-serif", weight: 600, size: 28, text: "Agent Infrastructure" },
-  { label: "Body",     font: "'Inter', sans-serif",         weight: 400, size: 16, text: "A distributed AI operating system built for the next generation of intelligent products." },
+  { label: "Heading",  font: "'Space Grotesk', sans-serif", weight: 600, size: 28, text: "BlackRoad Cloud · RoadCode · RoadChain" },
+  { label: "Body",     font: "'Inter', sans-serif",         weight: 400, size: 16, text: "BlackRoad Cloud, RoadCode, RoadChain, Lucidia — a distributed AI operating system. Founded by Alexa Amundson." },
   { label: "Label",    font: "'Inter', sans-serif",         weight: 600, size: 12, text: "SYSTEM STATUS · ACTIVE" },
   { label: "Code",     font: "'JetBrains Mono', monospace", weight: 400, size: 13, text: "Z := yx − w  →  equilibrium reached" },
   { label: "Mono",     font: "'JetBrains Mono', monospace", weight: 500, size: 11, text: "RC:0x4200 · PS-SHA∞ · QBFT-4200" },
@@ -271,12 +271,14 @@ function TokenSection() {
 function ComponentSection() {
   const [toggled, setToggled] = useState(false);
   const agents = [
-    { name: "Alice",    role: "Gateway",    color: "#FF6B2B", status: "active" },
-    { name: "Lucidia",  role: "Companion",  color: "#CC00AA", status: "active" },
-    { name: "Cecilia",  role: "Governance", color: "#8844FF", status: "active" },
-    { name: "Meridian", role: "Architect",  color: "#4488FF", status: "idle"   },
-    { name: "Eve",      role: "Security",   color: "#FF2255", status: "alert"  },
-    { name: "Radius",   role: "Math/Phys",  color: "#00D4FF", status: "idle"   },
+    { name: "Alice",    role: "Gateway & DNS",          color: "#FF6B2B", status: "active" },
+    { name: "Lucidia",  role: "Memory & Cognition",     color: "#8844FF", status: "active" },
+    { name: "Cecilia",  role: "Edge & Storage",         color: "#CC00AA", status: "active" },
+    { name: "Cece",     role: "API Gateway",            color: "#FF2255", status: "active" },
+    { name: "Aria",     role: "Agent Orchestration",    color: "#4488FF", status: "idle"   },
+    { name: "Eve",      role: "Intelligence",           color: "#00D4FF", status: "active" },
+    { name: "Meridian", role: "Networking",             color: "#FF6B2B", status: "active" },
+    { name: "Sentinel", role: "Security & Compliance",  color: "#4488FF", status: "active" },
   ];
 
   const statusColor = { active: "#00D4FF", idle: "#40406a", alert: "#FF2255" };
@@ -396,7 +398,7 @@ export default function BrandTemplate() {
         <div style={{ padding: "32px 48px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
           <div>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#40406a", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>
-              Design System · v2.0 · Neon Noir
+              BlackRoad OS, Inc. · Design System · v2.0
             </div>
             <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 42, margin: 0, letterSpacing: "-0.02em", lineHeight: 1 }}>
               BlackRoad{" "}
@@ -406,8 +408,8 @@ export default function BrandTemplate() {
             </h1>
           </div>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#40406a", textAlign: "right", lineHeight: 2 }}>
-            <div>6 accents · 8 surfaces</div>
-            <div>3 typefaces · PS-SHA∞</div>
+            <div>6 accents · 8 surfaces · Z:=yx−w</div>
+            <div>3 typefaces · 186 repos · 48 domains · 8 agents</div>
           </div>
         </div>
       </div>
